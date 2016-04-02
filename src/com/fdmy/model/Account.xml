@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fdmy.model.Account">
+
+<!--
+ id                   int                  identity(1,1),
+   type                 int                  null,
+   item_code            varchar(255)         null,
+   item_name            varchar(255)         null,
+   item_model           varchar(255)         null,
+   number               int               null,
+   department           varchar(255)         null,
+   operator             varchar(255)         null,
+   handler              varchar(255)         null,
+   reason               varchar(255)         null,
+   opt_time             datetime             null,
+   create_time          datetime             null,
+   update_time          datetime             null,
+   updater              varchar(255)         null
+  -->
+	<insert id="add" parameterType="Account">
+		insert into t_account
+		(type,item_code,item_name,item_model,unit,number,department,operator,handler,reason,opt_time,create_time,update_time,updater)
+		values(#{type},#{item.code},#{item.name},#{item.model},#{item.unit},#{number},#{department},#{operator},#{handler},#{reason},#{optTime},#{createTime},#{updateTime},#{updater.updater})
+	</insert>
+
+	<update id="update" parameterType="Account">
+		update t_account
+		set
+		type=#{type},item_code=#{item.code},item_name=#{item.name},item_model=#{item.model},unit=#{item.unit},number=#{number},
+		department=#{department},operator=#{operator},handler=#{handler},reason=#{reason},
+		opt_time=#{optTime},create_time=#{createTime},update_time=getdate(),updater=#{updater.updater}
+		where id = #{id}
+	</update>
+
+
+
+	<delete id="delete" parameterType="String">
+		delete from t_account where id = #{id}
+	</delete>
+
+
+
+	<select id="load" parameterType="String" resultMap="accountMap">
+		select * from t_account where id = #{id}
+	</select>
+
+
+	<resultMap type="Account" id="accountMap" autoMapping="true">
+		<result column="opt_time" property="optTime"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<association property="item" javaType="Item">
+			<result column="item_code" property="code"/>
+			<result column="item_name" property="name"/>
+			<result column="item_model" property="model"/>
+			<result column="unit" property="unit"/>
+		</association>
+	</resultMap>
+
+
+	<select id="query" parameterType="Account" resultMap="accountMap">
+		select t1.*,t2.unit as unit from t_account t1 left join t_item t2 on t1.item_code=t2.code 
+		<where>
+			<if test="id!=null"> and id = #{id}</if>
+			<if test="item!=null">
+				<if test="item.code!=null"> and item_code like '%${item.code}%'	</if>
+				<if test="item.name!=null"> and item_name like '%${item.name}%' </if>
+				<if test="item.model!=null"> and item_model like '%${item.model}%' </if>
+				<if test="department!=null"> and department = #{department} </if>
+			</if>
+		</where>
+	</select>
+</mapper>

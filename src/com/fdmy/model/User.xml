@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fdmy.model.User">
+
+	<insert id="add" parameterType="User">
+		insert into t_user
+		(usercode,username,password,department,usertype)
+		values(#{usercode},#{username},'111111',#{department},#{usertype})
+	</insert>
+
+	<update id="update" parameterType="User">
+		update t_user
+		<set>
+			<if test="username != null">username =#{username},</if>
+			<if test="department != null">department=#{department},</if>
+			<if test="usertype  != 9">usertype=#{usertype},</if>
+			<if test="status  != 9">status=#{status},</if>
+		</set>
+		where usercode = #{usercode}
+	</update>
+	
+	<update id = "changepassword" parameterType = "User">
+		update t_user set password = #{password} where usercode = #{usercode}
+	</update>
+
+	<delete id="delete" parameterType="String">
+		delete from t_user where usercode = #{usercode}
+	</delete>
+
+	<select id="load" parameterType="String" resultType="User">
+		select * from t_user where usercode = #{usercode}
+	</select>
+
+	<select id="query" parameterType="User" resultType="User">
+		select * from t_user
+		<where>
+			<if test="usercode != null"> usercode like '%${usercode}%'	</if>
+			<if test="username != null"> and username like '%${username}%'</if>
+			<if test="department != null"> and department like '%${department}%'</if>
+			<if test="usertype != 9"> and usertype = #{usertype}</if>
+		</where>
+	</select>
+</mapper>
