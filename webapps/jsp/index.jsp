@@ -11,5 +11,7 @@
 <a href="./item/index">设备材料管理页面</a>
 <a href="./user/index">用户管理页面</a>
 <a href="./account/index">增加出入库信息</a>
+<a href="/stock/index">查询库存</a>
+
 </body>
 </html>

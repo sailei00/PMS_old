@@ -1,6 +1,6 @@
 package com.fdmy.dao;
 
-public class DAOFactory {
+public class DaoFactory {
 	public static IItemDao getItemDao() {
 		return new ItemDao();
 	}
@@ -11,6 +11,14 @@ public class DAOFactory {
 
 	public static IUserDao getUserDao() {
 		return new UserDao();
+	}
+
+	public static IUtiCodeDao getUtiCodeDao() {
+		return new UtiCodeDao();
+	}
+	
+	public static IStockDao getStockDao(){
+		return new StockDao();
 	}
 
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fdmy.dao.DAOFactory;
+import com.fdmy.dao.DaoFactory;
 import com.fdmy.dao.IAccountDao;
 import com.fdmy.dao.IItemDao;
 import com.fdmy.model.Account;
@@ -26,8 +26,8 @@ import com.fdmy.model.User;
 @Controller
 @RequestMapping("/account")
 public class AccountController {
-	private IAccountDao dao = DAOFactory.getAccountDao();
-	private IItemDao itemDAO = DAOFactory.getItemDao();
+	private IAccountDao dao = DaoFactory.getAccountDao();
+	private IItemDao itemDAO = DaoFactory.getItemDao();
 
 	public AccountController() {
 		System.out.println("a new AccountController");
@@ -120,6 +120,18 @@ public class AccountController {
 	public String delete(@PathVariable String id) throws Exception {
 		dao.delete(id);
 		return "redirect:/account/query?id=" + id;
+	}
+
+	@RequestMapping(value = "/checkstock", method = RequestMethod.GET)
+	public String checkStock(Item item, String departmemt, Model model) {
+		
+		return null;
+	}
+	
+	@RequestMapping(value = "/tocheckstock", method = RequestMethod.GET)
+	public String checkStock() {
+		
+		return null;
 	}
 
 }

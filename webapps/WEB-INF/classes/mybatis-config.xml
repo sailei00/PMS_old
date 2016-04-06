@@ -24,5 +24,6 @@
 		<mapper resource="com/fdmy/model/Item.xml"/>
 		<mapper resource="com/fdmy/model/Account.xml"/>
 		<mapper resource="com/fdmy/model/User.xml"/>
+		<mapper resource="com/fdmy/model/UtiCode.xml"/>
 	</mappers>
 </configuration>

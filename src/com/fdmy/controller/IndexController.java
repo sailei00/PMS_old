@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.fdmy.dao.DAOFactory;
+import com.fdmy.dao.DaoFactory;
 import com.fdmy.dao.IUserDao;
 import com.fdmy.exception.UserException;
 import com.fdmy.model.User;
@@ -17,7 +17,7 @@ import com.fdmy.model.User;
 @SessionAttributes("loginuser")
 @RequestMapping("/")
 public class IndexController {
-	private IUserDao dao = DAOFactory.getUserDao();
+	private IUserDao dao = DaoFactory.getUserDao();
 
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String index(){

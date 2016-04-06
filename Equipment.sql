@@ -25,6 +25,13 @@ if exists (select 1
    drop table t_user
 go
 
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('UtiCode')
+            and   type = 'U')
+   drop table UtiCode
+go
+
 /*==============================================================*/
 /* Table: t_account                                             */
 /*==============================================================*/
@@ -286,3 +293,79 @@ alter table t_account
       references t_item (code)
 go
 
+
+
+
+/*==============================================================*/
+/* Table: UtiCode                                               */
+/*==============================================================*/
+create table UtiCode (
+   codetype             varchar(255)         not null,
+   codetypedesc         varchar(255)         null,
+   codecode             varchar(255)         not null,
+   codename             varchar(255)         not null,
+   codecode1            varchar(255)         null,
+   codecode2            varchar(255)         null,
+   codecode3            varchar(255)         null
+)
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '通用代码表',
+   'user', @CurrentUser, 'table', 'UtiCode'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '代码类型',
+   'user', @CurrentUser, 'table', 'UtiCode', 'column', 'codetype'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '代码类型描述',
+   'user', @CurrentUser, 'table', 'UtiCode', 'column', 'codetypedesc'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '代码',
+   'user', @CurrentUser, 'table', 'UtiCode', 'column', 'codecode'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '代码名称',
+   'user', @CurrentUser, 'table', 'UtiCode', 'column', 'codename'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '一级代码',
+   'user', @CurrentUser, 'table', 'UtiCode', 'column', 'codecode1'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '二级代码',
+   'user', @CurrentUser, 'table', 'UtiCode', 'column', 'codecode2'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '三级代码',
+   'user', @CurrentUser, 'table', 'UtiCode', 'column', 'codecode3'
+go
+
+alter table UtiCode
+   add constraint PK_UTICODE primary key (codetype, codecode)
+go

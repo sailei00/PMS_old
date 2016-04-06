@@ -38,6 +38,7 @@ public class ItemDao implements IItemDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.rollback();
+			throw new DBException(e.getMessage());
 		} finally {
 			DBUtil.closeSession(session);
 		}
@@ -54,6 +55,7 @@ public class ItemDao implements IItemDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.rollback();
+			throw new DBException(e.getMessage());
 		} finally {
 			DBUtil.closeSession(session);
 		}
@@ -68,6 +70,7 @@ public class ItemDao implements IItemDao {
 			item = session.selectOne(Item.class.getName() + ".load", code);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e.getMessage());
 		} finally {
 			DBUtil.closeSession(session);
 		}
@@ -83,6 +86,7 @@ public class ItemDao implements IItemDao {
 			list = session.selectList(Item.class.getName() + ".query",item);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e.getMessage());
 		} finally {
 			DBUtil.closeSession(session);
 		}

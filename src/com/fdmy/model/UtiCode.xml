@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fdmy.model.UtiCode">
+
+	<select id="load" parameterType="UtiCode" resultType="UtiCode">
+		select * from UtiCode where codeType = #{codeType} and codeCode = #{codeCode}
+	</select>
+
+	<select id="getCodesByType" parameterType="String" resultType="UtiCode">
+		select * from UtiCode where codeType = #{codeType}
+	</select>
+</mapper>

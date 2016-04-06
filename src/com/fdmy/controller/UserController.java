@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fdmy.dao.DAOFactory;
+import com.fdmy.dao.DaoFactory;
 import com.fdmy.dao.IUserDao;
 import com.fdmy.model.User;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	IUserDao dao = DAOFactory.getUserDao();
+	IUserDao dao = DaoFactory.getUserDao();
 
 	public UserController() {
 		System.out.println("a new UserController");

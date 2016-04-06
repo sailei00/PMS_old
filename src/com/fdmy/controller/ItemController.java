@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fdmy.dao.DAOFactory;
+import com.fdmy.dao.DaoFactory;
 import com.fdmy.dao.IItemDao;
 import com.fdmy.model.Item;
 
 @Controller
 @RequestMapping("/item")
 public class ItemController {
-	private IItemDao dao = DAOFactory.getItemDao();
+	private IItemDao dao = DaoFactory.getItemDao();
 
 	public ItemController() {
 		System.out.println("a new ItemController");
