@@ -8,8 +8,9 @@
 <title>物料编码</title>
 </head>
 <body>
+<center>
 	<form:form method="post" modelAttribute="item">
-		<table>
+		<table border="1">
 			<caption>物料编码</caption>
 			<tr>
 				<td>编码：</td>
@@ -44,5 +45,6 @@
 
 		</table>
 	</form:form>
+</center>
 </body>
 </html>

@@ -2,104 +2,51 @@ package com.fdmy.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import javax.annotation.Resource;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.fdmy.model.User;
-import com.fdmy.util.DBUtil;
 
+@Repository("userDao")
 public class UserDao implements IUserDao {
+	
+	private SqlSessionTemplate sessionTemplate;
+
+	@Resource
+	public void setSessionTemplate(SqlSessionTemplate sessionTemplate) {
+		this.sessionTemplate = sessionTemplate;
+	}
 
 	@Override
 	public void add(User user) {
-		SqlSession session = null;
-		try {
-			session = DBUtil.getSession();
-			session.insert(User.class.getName() + ".add", user);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.rollback();
-		} finally {
-			DBUtil.closeSession(session);
-		}
+		sessionTemplate.insert(User.class.getName() + ".add", user);
 	}
 
 	@Override
 	public void delete(String usercode) {
-		SqlSession session = null;
-		try {
-			session = DBUtil.getSession();
-			session.delete(User.class.getName() + ".delete", usercode);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.rollback();
-		} finally {
-			DBUtil.closeSession(session);
-		}
+		sessionTemplate.delete(User.class.getName() + ".delete", usercode);
 	}
 
 	@Override
 	public void update(User user) {
-		SqlSession session = null;
-		try {
-			session = DBUtil.getSession();
-			session.update(User.class.getName() + ".update", user);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.rollback();
-		} finally {
-			DBUtil.closeSession(session);
-		}
+		sessionTemplate.update(User.class.getName() + ".update", user);
 	}
 
 	@Override
 	public User load(String usercode) {
-		SqlSession session = null;
-		User user = null;
-		try {
-			session = DBUtil.getSession();
-			user = session.selectOne(User.class.getName() + ".load", usercode);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeSession(session);
-		}
-		return user;
+		return sessionTemplate.selectOne(User.class.getName() + ".load", usercode);
 	}
 
 	@Override
 	public List<User> query(User user) {
-		SqlSession session = null;
-		List<User> list = null;
-		try {
-			session = DBUtil.getSession();
-			list = session.selectList(User.class.getName() + ".query", user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeSession(session);
-		}
-		return list;
+		return sessionTemplate.selectList(User.class.getName() + ".query", user);
 	}
 
 	@Override
 	public User login(String usercode,String password) {
-		SqlSession session = null;
-		User user = null;
-		try {
-			session = DBUtil.getSession();
-			user = session.selectOne(User.class.getName() + ".login", usercode);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeSession(session);
-		}
-		return user;
+		return sessionTemplate.selectOne(User.class.getName() + ".login", usercode);
 	}
 
 }

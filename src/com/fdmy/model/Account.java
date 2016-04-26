@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Range;
  */
 public class Account {
 	/** 属性账目编号 */
-	private Long id;
+	private String id;
 	/** 属性物料编码相关信息 */
 	private Item item;
 	/**
@@ -64,12 +64,12 @@ public class Account {
 	}
 
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(String id) {
+		this.id = "".equals(id.trim()) ? null : id.trim();;
 	}
 
 	@NotNull(message="物料信息不能为空")
@@ -106,8 +106,7 @@ public class Account {
 	}
 
 	public void setDepartment(String department) {
-		department = "".equals(department) ? null : department;
-		this.department = department;
+		this.department = "".equals(department.trim()) ? null : department.trim();
 	}
 
 	public String getOperator() {

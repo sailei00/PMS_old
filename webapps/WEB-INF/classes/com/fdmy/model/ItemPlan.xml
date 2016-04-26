@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fdmy.model.ItemPlan">
+
+	<insert id="add" parameterType="ItemPlan">
+		insert into t_itemplan
+		(itemcode,planmonth,department,plannumber,purpose)
+		values(#{itemCode},#{planMonth},#{department},#{planNumber},#{purpose})
+	</insert>
+
+	<update id="update" parameterType="ItemPlan">
+		update t_itemplan
+		<set>
+			<if test="itemCode != null">itemcode =#{itemCode},</if>
+			<if test="planMonth != null">planmonth = #{planMonth},</if>
+			<if test="department != null">department=#{department},</if>
+			<if test="planNumber  != null">plannumber=#{planNumber},</if>
+			<if test="purpose  != null">purpose=#{purpose}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		delete from t_itemplan where id = #{id}
+	</delete>
+
+	<select id="load" parameterType="int" resultType="ItemPlan">
+		select a.*,b.name as itemName,b.model as itemModel,b.unit as itemUnit from t_itemplan a,t_item b where id = #{id} and a.itemcode = b.code
+	</select>
+
+	<select id="loadonebyparam" parameterType="ItemPlan" resultType="ItemPlan">
+		select * from t_itemplan where itemcode = #{itemCode} and department = #{department} and planmonth = #{planMonth}
+	</select>
+	
+	<select id="query" parameterType="ItemPlan" resultType="ItemPlan">
+		select id,itemCode,name as itemName,model as itemModel,unit as itemUnit,planNumber,department,planMonth
+		from t_itemplan a,t_item b
+		<where>
+			 a.itemcode = b.code 
+			<if test="itemCode != null"> and itemcode like '%${itemCode}%'	</if>
+			<if test="planMonth != null"> and planmonth = #{planMonth}</if>
+			<if test="department != null">and department=#{department}</if>
+		</where>
+	</select>
+	
+	
+	<!--  
+		获取当前月的计划
+	-->
+	<select id="querycurrplan" parameterType="ItemPlan" resultType="ItemPlan">
+		select * from t_itemplan
+		<where>
+			<!-- convert(varchar(7),getdate(),120) = planmonth     sqlserver 数据库的写法-->
+			date_format(now(),'%Y-%m') = planmonth
+			<if test="itemCode != null"> and itemcode like '%${itemCode}%'	</if>
+			<if test="department != null">and department=#{department}</if>
+		</where>
+	</select>
+</mapper>

@@ -3,6 +3,7 @@ package com.fdmy.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -14,14 +15,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fdmy.dao.DaoFactory;
-import com.fdmy.dao.IItemDao;
 import com.fdmy.model.Item;
+import com.fdmy.service.IItemService;
 
-@Controller
+@Controller("itemController")
 @RequestMapping("/item")
 public class ItemController {
-	private IItemDao dao = DaoFactory.getItemDao();
+//	private BeanFactory factory = new ClassPathXmlApplicationContext("beans.xml");
+//	private IItemService service = factory.getBean("itemService", ItemServiceImpl.class);
+//	private IItemService service = new ItemServiceImpl();
+	private IItemService itemService;
+	
+	public IItemService getItemService() {
+		return itemService;
+	}
+
+	@Resource
+	public void setItemService(IItemService itemService) {
+		this.itemService = itemService;
+	}
 
 	public ItemController() {
 		System.out.println("a new ItemController");
@@ -29,31 +41,31 @@ public class ItemController {
 
 	@RequestMapping("/index")
 	public String index() {
-		return "/item/itemquery";
+		return "/item/itemindex";
 	}
 
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
 	public String query(Item itemQueryBean, Model model) throws Exception {
 		// 利用搜索对象查询结果
 		List<Item> itemList = new ArrayList<Item>();
-		itemList = dao.query(itemQueryBean);
+		itemList = itemService.query(itemQueryBean);
 
 //		model.addAttribute("itemQueryBean", itemQueryBean);
 		model.addAttribute("itemList", itemList);
-		return "/item/itemquery";
+		return "/item/itemindex";
 	}
 
 	
 	//录入 入库单、出库单时查询物料编码的方法
 	@RequestMapping(value = "/queryforadd", method = RequestMethod.GET)
-	public String query(Item itemQueryBean, Model model,String abc) throws Exception {
+	public String query(Item itemQueryBean, Model model,String source) throws Exception {
 		// 利用搜索对象查询结果
 		List<Item> itemList = new ArrayList<Item>();
-		itemList = dao.query(itemQueryBean);
-		System.out.println(abc+"★★★★★★★★★★★★★★★★★★★★★★★★★★");
-//		model.addAttribute("itemQueryBean", itemQueryBean);
+		itemList = itemService.query(itemQueryBean);
+		System.out.println(source+"★★★★★★★★★★★★★★★★★★★★★★★★★★");
+		model.addAttribute("source", source);
 		model.addAttribute("itemList", itemList);
-		return "/account/search";
+		return "/iteminpage";
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -71,32 +83,32 @@ public class ItemController {
 			}
 			return "/item/itempage";
 		}
-		Item i = dao.load(item.getCode());
+		Item i = itemService.load(item.getCode());
 		if (i != null) {
 			br.addError(new FieldError("item","code","该物料编码已存在"));
 //			model.addAttribute("item",item);
 			return "/item/itempage";
 		}
-		dao.add(item);
+		itemService.add(item);
 		return "redirect:/item/query?code=" + item.getCode();
 	}
 
 	@RequestMapping(value = "/{code}/update", method = RequestMethod.GET)
 	public String update(@PathVariable String code, Model model) throws Exception {
-		Item item = dao.load(code);
+		Item item = itemService.load(code);
 		model.addAttribute("item", item);
 		return "/item/itempage";
 	}
 
 	@RequestMapping(value = "/{code}/update", method = RequestMethod.POST)
 	public String update(Item item) throws Exception {
-		dao.update(item);
+		itemService.update(item);
 		return "redirect:/item/query?code=" + item.getCode();
 	}
 
 	@RequestMapping(value = "/{code}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable String code) throws Exception {
-		dao.delete(code);
+		itemService.delete(code);
 		return "redirect:/item/query?code=" + code;
 	}
 

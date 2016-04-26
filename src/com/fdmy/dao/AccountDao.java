@@ -2,89 +2,46 @@ package com.fdmy.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import javax.annotation.Resource;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.fdmy.model.Account;
-import com.fdmy.util.DBUtil;
 
+@Repository("accountDao")
 public class AccountDao implements IAccountDao {
+
+	private SqlSessionTemplate sessionTemplate;
+
+	@Resource
+	public void setSessionTemplate(SqlSessionTemplate sessionTemplate) {
+		this.sessionTemplate = sessionTemplate;
+	}
 
 	@Override
 	public List<Account> query(Account acc) {
-		SqlSession session = null;
-		List<Account> list = null;
-		try {
-			session = DBUtil.getSession();
-			list = session.selectList(Account.class.getName() + ".query",acc);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeSession(session);
-		}
-		return list;
+		return sessionTemplate.selectList(Account.class.getName() + ".query", acc);
 	}
 
 	@Override
 	public void add(Account acc) {
-		SqlSession session = null;
-		try {
-			session = DBUtil.getSession();
-			session.insert(Account.class.getName() + ".add", acc);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.rollback();
-		} finally {
-			DBUtil.closeSession(session);
-		}
+		sessionTemplate.insert(Account.class.getName() + ".add", acc);
 	}
 
 	@Override
 	public void delete(String id) {
-		SqlSession session = null;
-		try {
-			session = DBUtil.getSession();
-			session.delete(Account.class.getName() + ".delete", id);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.rollback();
-		} finally {
-			DBUtil.closeSession(session);
-		}
+		sessionTemplate.delete(Account.class.getName() + ".delete", id);
 	}
 
 	@Override
 	public void update(Account acc) {
-		SqlSession session = null;
-		try {
-			session = DBUtil.getSession();
-			session.update(Account.class.getName() + ".update", acc);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.rollback();
-		} finally {
-			DBUtil.closeSession(session);
-		}
+		sessionTemplate.update(Account.class.getName() + ".update", acc);
 	}
 
 	@Override
 	public Account load(String id) {
-		SqlSession session = null;
-		Account acc = null;
-		try {
-			session = DBUtil.getSession();
-			acc = session.selectOne(Account.class.getName() + ".load", id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeSession(session);
-		}
-		return acc;
+		return sessionTemplate.selectOne(Account.class.getName() + ".load", id);
 	}
 
 }

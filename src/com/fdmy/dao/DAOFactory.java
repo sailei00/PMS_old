@@ -21,4 +21,7 @@ public class DaoFactory {
 		return new StockDao();
 	}
 
+	public static IItemPlanDao getItemPlanDao() {
+		return new ItemPlanDao();
+	}
 }

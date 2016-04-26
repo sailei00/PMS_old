@@ -2,44 +2,28 @@ package com.fdmy.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import javax.annotation.Resource;
 
-import com.fdmy.exception.DBException;
+import org.mybatis.spring.SqlSessionTemplate;
+
 import com.fdmy.model.UtiCode;
-import com.fdmy.util.DBUtil;
 
 public class UtiCodeDao implements IUtiCodeDao {
+	private SqlSessionTemplate sessionTemplate;
+
+	@Resource
+	public void setSessionTemplate(SqlSessionTemplate sessionTemplate) {
+		this.sessionTemplate = sessionTemplate;
+	}
 
 	@Override
 	public UtiCode load(UtiCode code) {
-		SqlSession session = null;
-		UtiCode uticode = null;
-		try {
-			session = DBUtil.getSession();
-			uticode = session.selectOne(UtiCode.class.getName() + ".load",code);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DBException(e.getMessage());
-		} finally {
-			DBUtil.closeSession(session);
-		}
-		return uticode;
+		return sessionTemplate.selectOne(UtiCode.class.getName() + ".load", code);
 	}
 
 	@Override
 	public List<UtiCode> getCodesByType(String codetype) {
-		SqlSession session = null;
-		List<UtiCode> codeList = null;
-		try {
-			session = DBUtil.getSession();
-			codeList = session.selectList(UtiCode.class.getName() + ".getCodesByType",codetype);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DBException(e.getMessage());
-		} finally {
-			DBUtil.closeSession(session);
-		}
-		return codeList;
+		return sessionTemplate.selectList(UtiCode.class.getName() + ".getCodesByType", codetype);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.fdmy.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.fdmy.dao.DaoFactory;
 import com.fdmy.dao.IUserDao;
 import com.fdmy.exception.UserException;
 import com.fdmy.model.User;
@@ -17,7 +17,12 @@ import com.fdmy.model.User;
 @SessionAttributes("loginuser")
 @RequestMapping("/")
 public class IndexController {
-	private IUserDao dao = DaoFactory.getUserDao();
+	private IUserDao userDao;
+
+	@Resource
+	public void setUserDao(IUserDao userDao) {
+		this.userDao = userDao;
+	}
 
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String index(){
@@ -30,7 +35,7 @@ public class IndexController {
 	}
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(String usercode, String password, Model model) {
-		User user = dao.load(usercode);
+		User user = userDao.load(usercode);
 		if (null == user) {
 			throw new UserException("用户名不存在!");
 		}

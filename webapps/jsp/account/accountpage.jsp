@@ -33,11 +33,11 @@ function showSearchPage(obj) {
 	searchDiv.style.top = offset.top + "px";
 	
 	if(obj.name == 'item.code') {
-		searchFrame.src = "/item/queryforadd?code=" + obj.value;
+		searchFrame.src = "/item/queryforadd?source=account&code=" + obj.value;
 	} else if (obj.name == 'item.name') {
-		searchFrame.src = "/item/queryforadd?name=" + obj.value;
+		searchFrame.src = "/item/queryforadd?source=account&name=" + obj.value;
 	} else if (obj.name =='item.model') {
-		searchFrame.src = "/item/queryforadd?model=" + obj.value;
+		searchFrame.src = "/item/queryforadd?source=account&model=" + obj.value;
 	}
 	
 }

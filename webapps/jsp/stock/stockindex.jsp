@@ -24,7 +24,7 @@
 		<table align="center" border=1>
 			<tr><td align="center">部门</td><td align="center">物料编码</td><td align="center">物料名称</td><td align="center">型号</td><td align="center">单位</td><td align="center">库存</td></tr>
 			<c:forEach items="${stockList}" var="li">
-				<tr>
+				<tr style="background-color:${li.reason}">
 					<td align="center">${li.department}</td>
 					<td align="center">${li.item.code}</td>
 					<td align="center">${li.item.name}</td>

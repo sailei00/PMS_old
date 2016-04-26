@@ -2,6 +2,7 @@ package com.fdmy.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -12,14 +13,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fdmy.dao.DaoFactory;
 import com.fdmy.dao.IUserDao;
 import com.fdmy.model.User;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	IUserDao dao = DaoFactory.getUserDao();
+	IUserDao userDao ;
+
+	public IUserDao getUserDao() {
+		return userDao;
+	}
+
+	@Resource
+	public void setUserDao(IUserDao userDao) {
+		this.userDao = userDao;
+	}
 
 	public UserController() {
 		System.out.println("a new UserController");
@@ -33,7 +42,7 @@ public class UserController {
 
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
 	public String query(User user, Model model) {
-		List<User> list = dao.query(user);
+		List<User> list = userDao.query(user);
 		model.addAttribute("userList", list);
 		return "/user/userindex";
 	}
@@ -53,13 +62,13 @@ public class UserController {
 			}
 			return "/user/userpage";
 		}
-		dao.add(user);
+		userDao.add(user);
 		return "redirect:/user/query?usercode=" + user.getUsercode();
 	}
 
 	@RequestMapping(value = "/{usercode}/update", method = RequestMethod.GET)
 	public String update(@PathVariable String usercode, Model model) throws Exception {
-		User user = dao.load(usercode);
+		User user = userDao.load(usercode);
 		model.addAttribute("user", user);
 		return "/user/userpage";
 	}
@@ -73,14 +82,14 @@ public class UserController {
 			}
 			return "/user/userpage";
 		}
-		dao.update(user);
+		userDao.update(user);
 		return "redirect:/user/query?usercode=" + user.getUsercode();
 	}
 	
 
 	@RequestMapping(value = "/{usercode}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable String usercode) throws Exception {
-		dao.delete(usercode);
+		userDao.delete(usercode);
 		return "redirect:/user/query";
 	}
 	

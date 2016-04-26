@@ -5,8 +5,8 @@
 
 	<insert id="add" parameterType="User">
 		insert into t_user
-		(usercode,username,password,department,usertype)
-		values(#{usercode},#{username},'111111',#{department},#{usertype})
+		(usercode,username,password,department,usertype,status)
+		values(#{usercode},#{username},'111111',#{department},#{usertype},#{status})
 	</insert>
 
 	<update id="update" parameterType="User">

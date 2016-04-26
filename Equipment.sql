@@ -1,3 +1,4 @@
+create database pms;
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2000                    */
 /* Created on:     2016/2/25 星期四 20:08:17                       */
@@ -30,6 +31,13 @@ if exists (select 1
            where  id = object_id('UtiCode')
             and   type = 'U')
    drop table UtiCode
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('t_itemplan')
+            and   type = 'U')
+   drop table t_itemplan
 go
 
 /*==============================================================*/
@@ -294,6 +302,74 @@ alter table t_account
 go
 
 
+/*==============================================================*/
+/* Table: t_itemplan                                            */
+/*==============================================================*/
+create table t_itemplan (
+   id                  	int 		 identity(1,1)       		 not null,
+   itemcode             	varchar(255)         not null,
+   planmonth            char(7)            		 not null,
+   department           varchar(255)         not null,
+   plannumber           int                  			not null,
+   purpose             	varchar(255)         	null
+)
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '材料计划表',
+   'user', @CurrentUser, 'table', 't_itemplan'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   'id',
+   'user', @CurrentUser, 'table', 't_itemplan', 'column', 'id'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '物料编码',
+   'user', @CurrentUser, 'table', 't_itemplan', 'column', 'itemcode'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '计划月份',
+   'user', @CurrentUser, 'table', 't_itemplan', 'column', 'planmonth'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '部门',
+   'user', @CurrentUser, 'table', 't_itemplan', 'column', 'department'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '计划数量',
+   'user', @CurrentUser, 'table', 't_itemplan', 'column', 'plannumber'
+go
+
+declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '用途',
+   'user', @CurrentUser, 'table', 't_itemplan', 'column', 'purpose'
+go
+
+alter table t_itemplan
+   add constraint PK_T_ITEMPLAN primary key (id)
+go
+
+
+
 
 
 /*==============================================================*/
@@ -369,3 +445,7 @@ go
 alter table UtiCode
    add constraint PK_UTICODE primary key (codetype, codecode)
 go
+
+
+
+

@@ -30,7 +30,7 @@
 		set
 		type=#{type},item_code=#{item.code},item_name=#{item.name},item_model=#{item.model},unit=#{item.unit},number=#{number},
 		department=#{department},operator=#{operator},handler=#{handler},reason=#{reason},
-		opt_time=#{optTime},create_time=#{createTime},update_time=getdate(),updater=#{updater.updater}
+		opt_time=#{optTime},create_time=#{createTime},update_time=now(),updater=#{updater.updater}
 		where id = #{id}
 	</update>
 
@@ -48,6 +48,7 @@
 
 
 	<resultMap type="Account" id="accountMap" autoMapping="true">
+		<id column="id" property="id" />
 		<result column="opt_time" property="optTime"/>
 		<result column="create_time" property="createTime"/>
 		<result column="update_time" property="updateTime"/>
@@ -73,37 +74,4 @@
 		</where>
 	</select>
 	
-	
-	
-	<resultMap type="Account" id="stockresultMap" autoMapping="true">
-		<result column="number" property="number"/>
-		<result column="type" property="type"/>
-		<result column="department" property="department"/>
-		<association property="item" javaType="Item">
-			<result column="item_code" property="code"/>
-			<result column="item_name" property="name"/>
-			<result column="item_model" property="model"/>
-			<result column="unit" property="unit"/>
-		</association>
-	</resultMap>
-	
-	<select id = "checkstock"  resultMap = "stockresultMap">
-		select item_code,item_name,item_model,unit,type,department,sum(number) as number from t_account 
-		<where>
-			<choose>
-				<when test="itemCode != null">
-					item_code = #{itemCode}
-				</when>
-				<otherwise>
-					and exists (select 1 from t_item  where t_account.item_code = t_item.code)
-				</otherwise>
-			</choose>
-			<if test="department != null">
-				and department = #{department}
-			</if>
-		       and type = #{type}
-		</where>
-		group by item_code ,item_name,item_model,unit,type, department
-		order by item_code,type
-	</select>
 </mapper>

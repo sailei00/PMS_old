@@ -3,6 +3,7 @@ package com.fdmy.controller;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -16,18 +17,41 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fdmy.dao.DaoFactory;
-import com.fdmy.dao.IAccountDao;
-import com.fdmy.dao.IItemDao;
 import com.fdmy.model.Account;
 import com.fdmy.model.Item;
 import com.fdmy.model.User;
+import com.fdmy.service.IAccountService;
+import com.fdmy.service.IItemService;
 
-@Controller
+@Controller("accountController")
 @RequestMapping("/account")
 public class AccountController {
-	private IAccountDao dao = DaoFactory.getAccountDao();
-	private IItemDao itemDAO = DaoFactory.getItemDao();
+//	private BeanFactory factory = new ClassPathXmlApplicationContext("beans.xml");
+	
+//	IAccountService accountService =  factory.getBean("accountService", AccountServiceImpl.class);
+//	IItemService itemService =  factory.getBean("itemService", ItemServiceImpl.class);
+	IAccountService accountService;
+	IItemService itemService;
+	
+
+	public IAccountService getAccountService() {
+		return accountService;
+	}
+
+	@Resource
+	public void setAccountService(IAccountService accountService) {
+		this.accountService = accountService;
+	}
+
+	public IItemService getItemService() {
+		return itemService;
+	}
+
+	
+	@Resource
+	public void setItemService(IItemService itemService) {
+		this.itemService = itemService;
+	}
 
 	public AccountController() {
 		System.out.println("a new AccountController");
@@ -40,7 +64,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
 	public String query(Account acc, Model model) {
-		List<Account> list = dao.query(acc);
+		List<Account> list = accountService.query(acc);
 		model.addAttribute("accList", list);
 		model.addAttribute("querybean", acc);
 		return "/account/accountindex";
@@ -63,10 +87,6 @@ public class AccountController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(@Valid Account acc, BindingResult br) throws Exception {
-		System.out.println("###########account##########add#####post");
-		System.out.println(acc);
-		System.out.println(acc.getItem());
-
 		if (br.hasErrors()) {
 			System.out.println("======================");
 			List<ObjectError> errorList = br.getAllErrors();
@@ -76,29 +96,19 @@ public class AccountController {
 			return "/account/accountpage";
 		}
 
-		Item item = itemDAO.load(acc.getItem().getCode());
+		Item item = itemService.load(acc.getItem().getCode());
 		if (item == null) {
 			br.addError(new FieldError("account", "item.code", "该物料编码不存在"));
 			// br.addError(new ObjectError("item.code","该物料编码不存在"));
 			return "/account/accountpage";
 		}
-		int type = acc.getType();
-		if (type == 0) { // 0出库
-			item.setAmount(item.getAmount() - acc.getNumber());
-		} else if (type == 1) { // 1入库
-			Double num = acc.getNumber();
-			Double amount = item.getAmount();
-			System.out.println(num + amount);
-			item.setAmount(num + amount);
-		}
-		itemDAO.update(item);
-		dao.add(acc);
+		accountService.add(acc, item);
 		return "redirect:/account/query?item.code=" + acc.getItem().getCode();
 	}
 
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
 	public String update(@PathVariable String id, Model model) throws Exception {
-		Account acc = dao.load(id);
+		Account acc = accountService.load(id);
 		model.addAttribute("account", acc);
 		return "/account/accountpage";
 	}
@@ -112,26 +122,15 @@ public class AccountController {
 			}
 			return "/account/accountpage";
 		}
-		dao.update(acc);
+		accountService.update(acc);
 		return "redirect:/account/query?id=" + acc.getId();
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	public String delete(@PathVariable String id) throws Exception {
-		dao.delete(id);
+		accountService.delete(id);
 		return "redirect:/account/query?id=" + id;
 	}
-
-	@RequestMapping(value = "/checkstock", method = RequestMethod.GET)
-	public String checkStock(Item item, String departmemt, Model model) {
-		
-		return null;
-	}
 	
-	@RequestMapping(value = "/tocheckstock", method = RequestMethod.GET)
-	public String checkStock() {
-		
-		return null;
-	}
 
 }
