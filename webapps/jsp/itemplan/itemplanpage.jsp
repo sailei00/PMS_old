@@ -108,7 +108,7 @@ function showSearchPage(obj) {
 	</form:form>
 
 
-	<div id="searchDiv" style="display:none;position:absolute;top:30px;left:300px">
+	<div id="searchDiv" style="display:none;position:absolute;">
 		<iframe id="searchFrame"  ></iframe>
 	</div>
 </body>

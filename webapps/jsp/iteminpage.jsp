@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查询物料</title>
 <style type="text/css">
+html { overflow-x: hidden; overflow-y: hidden; }/*隐藏横向滚动，垂直滚动根据内容自适应（去除IE默认垂直滚动条）*/ 
 .itemsearch {
 	width:50px;
 }

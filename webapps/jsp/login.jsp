@@ -49,9 +49,8 @@ button, input, select,label,img,p{ vertical-align:middle;}
         #login_main
         {
             background: #f1f1f1;
-            margin-top:100px;
+            margin-top:0px;
             position: relative;
-            top: 90%;
             width: 100%;
         }
         .login_logo
