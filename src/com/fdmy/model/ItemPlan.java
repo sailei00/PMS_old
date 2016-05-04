@@ -14,6 +14,7 @@ public class ItemPlan {
 	private int planNumber;
 	private String purpose;
 	
+	@NotEmpty(message="物料名称不能为空")
 	public String getItemName() {
 		return itemName;
 	}
@@ -47,6 +48,7 @@ public class ItemPlan {
 		this.id = "".equals(id) ? null : id;
 	}
 
+	@NotEmpty(message="物料编码不能为空")
 	public String getItemCode() {
 		return itemCode;
 	}
@@ -55,20 +57,20 @@ public class ItemPlan {
 		this.itemCode = "".equals(itemCode) ? null : itemCode;
 	}
 
+	@NotEmpty(message="请填写计划月份")
 	public String getPlanMonth() {
 		return planMonth;
 	}
 
-	@NotEmpty(message="请填写计划月份")
 	public void setPlanMonth(String planMonth) {
 		this.planMonth = "".equals(planMonth) ? null : planMonth;
 	}
 
+	@NotEmpty(message="归属部门不能为空")
 	public String getDepartment() {
 		return department;
 	}
 
-	@NotEmpty(message="归属部门不能为空")
 	public void setDepartment(String department) {
 		this.department = "".equals(department) ? null : department;
 	}

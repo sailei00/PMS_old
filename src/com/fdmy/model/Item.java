@@ -69,15 +69,5 @@ public class Item {
 	public String toString() {
 		return "name:" + name + ",code:" + code + ",model:" + model + ",price:" + price + "amount:" + amount;
 	}
-	//
-	// @Override
-	// public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
-	// Item item = new Item();
-	// item.setCode(rs.getString("code"));
-	// item.setName(rs.getString("name"));
-	// item.setModel(rs.getString("model"));
-	// item.setPrice(rs.getDouble("price"));
-	// return item;
-	// }
 
 }

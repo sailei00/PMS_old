@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+
 /**
  * 流水账
  */
@@ -37,7 +38,7 @@ public class Account {
 	/** 属性最后修改时间 */
 	private Date updateTime;
 	/** 属性最后修改人 */
-	private User updater;
+	private String updater;
 
 	public Date getOptTime() {
 		return optTime;
@@ -63,16 +64,15 @@ public class Account {
 		this.updateTime = updateTime;
 	}
 
-
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
-		this.id = "".equals(id.trim()) ? null : id.trim();;
+		this.id = "".equals(id.trim()) ? null : id.trim();
 	}
 
-	@NotNull(message="物料信息不能为空")
+	@NotNull(message = "物料信息不能为空")
 	@Valid
 	public Item getItem() {
 		return item;
@@ -82,7 +82,7 @@ public class Account {
 		this.item = item;
 	}
 
-	@Range(min=0, max=1,message="请选择正确的单据类型")
+	@Range(min = 0, max = 1, message = "请选择正确的单据类型")
 	public int getType() {
 		return type;
 	}
@@ -91,7 +91,7 @@ public class Account {
 		this.type = type;
 	}
 
-	@NotNull(message="请填写数量")
+	@NotNull(message = "请填写数量")
 	public Double getNumber() {
 		return number;
 	}
@@ -100,7 +100,7 @@ public class Account {
 		this.number = number;
 	}
 
-	@NotBlank(message="部门信息不能为空")
+	@NotBlank(message = "部门信息不能为空")
 	public String getDepartment() {
 		return department;
 	}
@@ -133,12 +133,12 @@ public class Account {
 		this.reason = reason;
 	}
 
-	public User getUpdater() {
+	public String getUpdater() {
 		return updater;
 	}
 
-	public void setUpdater(User updater) {
-		this.updater = updater;
+	public void setUpdater(String updater) {
+		this.updater = "".equals(updater.trim()) ? null : updater.trim();
 	}
 
 }

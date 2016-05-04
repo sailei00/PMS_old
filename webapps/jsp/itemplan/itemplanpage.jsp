@@ -51,7 +51,7 @@ function showSearchPage(obj) {
 </style>
 </head>
 <body>
-<form:form method="post"  modelAttribute="itemplan">
+<form:form method="post"  modelAttribute="itemPlan">
  <center>
 	<c:if test="${not empty id}">修改</c:if><c:if test="${empty id }">添加</c:if>月度计划
 	<c:if test="${not empty id}"><form:label path="id" cssStyle="background-color:#F0F0F0;color:#9933CC;border-style: solid;  border-width: 1px;  border-color: gray;">${id}</form:label></c:if>
@@ -64,7 +64,7 @@ function showSearchPage(obj) {
 			<td>材料名称：</td>
 			<td>
 				<div style="display:block;position:relative">
-					<form:input path="itemName"  ondblclick="showSearchPage(this)" cssStyle="border:#999 1px solid;height:20px;background:#fff url(/images/search.png)  no-repeat right;"/><form:errors path="itemName" ></form:errors>
+					<form:input path="itemName"  ondblclick="showSearchPage(this)" cssStyle="border:#999 1px solid;height:20px;background:#fff url(/images/search.png)  no-repeat right;"/><form:errors path="itemName" cssStyle="color:red"></form:errors>
 				</div>
 			</td>
 		</tr>

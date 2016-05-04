@@ -34,7 +34,7 @@
 			</table>
 			<br/>
 			<c:if test="${not empty itemList }">
-				<table border="1">
+				<table width=" 100%"  border="1">
 					<caption>查询结果</caption>
 					<tr>
 						<td align="center">编码</td>
@@ -47,14 +47,14 @@
 						<td align="center">删除</td>
 						<c:forEach items="${itemList}" var="it" begin="0">
 							<tr>
-								<td><input type="text" name="code" disabled value="${it.code}" /></td>
-								<td><input type="text" name="name" disabled value="${it.name}" /></td>
-								<td><input type="text" name="model" disabled value="${it.model}" /></td>
-								<td><input type="text" name="price" disabled value="${it.price}" /></td>
-								<td><input type="text" name="unit" disabled value="${it.unit}" /></td>
-								<td><input type="text" name="amount" disabled value="${it.amount}" /></td>
-								<td><a href="${it.code}/update">修改</a></td>
-								<td><a href="${it.code}/delete">删除</a></td>
+								<td align="center">${it.code} </td>
+								<td align="center">${it.name} </td>
+								<td align="center">${it.model} </td>
+								<td align="center">${it.price} </td>
+								<td align="center">${it.unit} </td>
+								<td align="center">${it.amount} </td>
+								<td align="center"><a href="${it.code}/update">修改</a></td>
+								<td align="center"><a href="${it.code}/delete">删除</a></td>
 						</c:forEach>
 				</table>
 			</c:if>

@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fdmy.model.ItemPlan;
+import com.fdmy.model.User;
 import com.fdmy.service.IItemPlanService;
 
 @Controller("itemPlanController")
@@ -54,17 +57,21 @@ public class ItemPlanController {
 
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String toAdd(Model model) {
-		ItemPlan itemplan = new ItemPlan();
+	public String toAdd(HttpServletRequest request,Model model) {
+		ItemPlan itemPlan = new ItemPlan();
 		//设置计划月份为当前月
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-		itemplan.setPlanMonth(sdf.format(Calendar.getInstance().getTime()));	
-		model.addAttribute("itemplan", itemplan);
+		itemPlan.setPlanMonth(sdf.format(Calendar.getInstance().getTime()));	
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("loginuser");
+		//设置归属部门
+		itemPlan.setDepartment(user.getDepartment());
+		model.addAttribute("itemPlan", itemPlan);
 		return "/itemplan/itemplanpage";
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(@Valid ItemPlan itemPlanQueryBean,BindingResult br,Model model) throws Exception {
+	public String add(@Valid ItemPlan itemplan,BindingResult br,Model model) throws Exception {
 		if(br.hasErrors()){
 			List<ObjectError> errorList = br.getAllErrors();
 			for (ObjectError error : errorList) {
@@ -72,8 +79,8 @@ public class ItemPlanController {
 			}
 			return "/itemplan/itemplanpage";
 		}
-		itemPlanService.add(itemPlanQueryBean);
-		return "redirect:/itemplan/query?itemcode=" + itemPlanQueryBean.getItemCode() + "&planmonth=" + itemPlanQueryBean.getPlanMonth();
+		itemPlanService.add(itemplan);
+		return "redirect:/itemplan/query?itemcode=" + itemplan.getItemCode() + "&planmonth=" + itemplan.getPlanMonth();
 	}
 
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.GET)

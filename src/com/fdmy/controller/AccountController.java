@@ -71,7 +71,7 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String toInsert(HttpServletRequest request, Model model) {
+	public String toAdd(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("loginuser");
 		Account acc = new Account();
@@ -122,6 +122,8 @@ public class AccountController {
 			}
 			return "/account/accountpage";
 		}
+		//设置最后修改人为当前操作员
+		acc.setUpdater(acc.getOperator());
 		accountService.update(acc);
 		return "redirect:/account/query?id=" + acc.getId();
 	}

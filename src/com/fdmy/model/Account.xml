@@ -3,26 +3,10 @@
 
 <mapper namespace="com.fdmy.model.Account">
 
-<!--
- id                   int                  identity(1,1),
-   type                 int                  null,
-   item_code            varchar(255)         null,
-   item_name            varchar(255)         null,
-   item_model           varchar(255)         null,
-   number               int               null,
-   department           varchar(255)         null,
-   operator             varchar(255)         null,
-   handler              varchar(255)         null,
-   reason               varchar(255)         null,
-   opt_time             datetime             null,
-   create_time          datetime             null,
-   update_time          datetime             null,
-   updater              varchar(255)         null
-  -->
 	<insert id="add" parameterType="Account">
 		insert into t_account
 		(type,item_code,item_name,item_model,unit,number,department,operator,handler,reason,opt_time,create_time,update_time,updater)
-		values(#{type},#{item.code},#{item.name},#{item.model},#{item.unit},#{number},#{department},#{operator},#{handler},#{reason},#{optTime},#{createTime},#{updateTime},#{updater.updater})
+		values(#{type},#{item.code},#{item.name},#{item.model},#{item.unit},#{number},#{department},#{operator},#{handler},#{reason},#{optTime},#{createTime},#{updateTime},#{updater})
 	</insert>
 
 	<update id="update" parameterType="Account">
@@ -30,7 +14,7 @@
 		set
 		type=#{type},item_code=#{item.code},item_name=#{item.name},item_model=#{item.model},unit=#{item.unit},number=#{number},
 		department=#{department},operator=#{operator},handler=#{handler},reason=#{reason},
-		opt_time=#{optTime},create_time=#{createTime},update_time=now(),updater=#{updater.updater}
+		opt_time=#{optTime},create_time=#{createTime},update_time=now(),updater=#{updater}
 		where id = #{id}
 	</update>
 
