@@ -21,7 +21,7 @@
 	</update>
 	
 	<update id = "changepassword" parameterType = "User">
-		update t_user set password = #{password} where usercode = #{usercode}
+		update t_user set password = #{password} where usercode = #{usercode} and password = #{oldpassword}
 	</update>
 
 	<delete id="delete" parameterType="String">

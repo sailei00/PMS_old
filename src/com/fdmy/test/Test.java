@@ -1,11 +1,17 @@
 package com.fdmy.test;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class Test {
 
 	public static void main(String[] args) {
-		Double a = new Double(2);
-		Double b = new Double(2);
-		System.out.println(a.equals(b));
+		Date d = Calendar.getInstance().getTime();
+		long dd = d.getTime() + 86400000;
+		System.out.println(new Date(dd));
 	}
+	
+	
+	
 
 }

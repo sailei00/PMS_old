@@ -6,13 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/css/basecss.css">
 <script language="javascript" type="text/javascript" src="<%=request.getContextPath()%>/datepicker/WdatePicker.js"></script>
-<style type="text/css">
-body{
-	margin:0px;
-	padding:0px;
-}
-</style>
 </head>
 <body>
 	<h1 align="center">材料计划查询</h1>
@@ -21,12 +16,14 @@ body{
 		物料编码：<input type="text" name="itemCode" />
 		物料名称：<input type="text" name="itemName" />
 		物料型号：<input type="text" name="itemModel" />
-		部门：<input type="text" name="department" />
+		部门：<input type="text" name="department"  <c:if test="${loginuser.usertype eq 1}" > value="${loginuser.department}"   readonly</c:if>/>
 		计划月份：<input type="text" name="planMonth"  class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})"/>
 		<br/><input type="submit" value="查询"/> 
 		<br/><a href="add">添加本月计划</a>	<a href="/">返回</a>
 		</div>
 	</form:form>
+	
+	
 	
 	<c:if test="${not empty itemplanlist}">
 				<table  width=" 100%" border="1">
@@ -40,8 +37,7 @@ body{
 						<td align="center">数量</td>
 						<td align="center">部门</td>
 						<td align="center">计划月份</td>
-						<td align="center">修改</td>
-						<td align="center">删除</td>
+						<td align="center">操作</td>
 						<c:forEach items="${itemplanlist}" var="it" begin="0">
 							<tr>
 								<td align="center">${it.id}</td>
@@ -52,8 +48,7 @@ body{
 								<td align="center">${it.planNumber}</td>
 								<td align="center">${it.department}</td>
 								<td align="center">${it.planMonth}</td>
-								<td align="center"><a href="${it.id}/update">修改</a></td>
-								<td align="center"><a href="${it.id}/delete">删除</a></td>
+								<td align="center"><a href="${it.id}/update">修改</a> <a href="${it.id}/delete">删除</a></td>
 						</c:forEach>
 				</table>
 			</c:if>

@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>物料编码</title>
+<link rel="stylesheet" type="text/css" href="/css/basecss.css">
 </head>
 <body>
 <center>

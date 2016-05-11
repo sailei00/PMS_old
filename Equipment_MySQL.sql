@@ -59,7 +59,7 @@ create table t_item
 (
    code                 varchar(255) not null comment '唯一性编码',
    name                 varchar(255) not null,
-   model                varchar(255) not null,
+   model                varchar(255),
    price                numeric(10,2),
    unit                 varchar(255),
    amount               float comment '全矿库存',

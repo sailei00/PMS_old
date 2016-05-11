@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Range;
 public class User {
 	private String usercode;
 	private String username;
+	private String oldpassword;
 	private String password;
 	private String department;
 	/**
@@ -15,7 +16,7 @@ public class User {
 	 */
 	private int usertype = 9;
 	/**
-	 * 用户状态： 0:停用 1:启用(正常)  9默认值(未设置)
+	 * 用户状态： 0:停用 1:启用(正常) 9默认值(未设置)
 	 */
 	private int status = 9;
 
@@ -43,6 +44,14 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = "".equals(username) ? null : username;
+	}
+
+	public String getOldpassword() {
+		return oldpassword;
+	}
+
+	public void setOldpassword(String oldpassword) {
+		this.oldpassword = oldpassword;
 	}
 
 	@NotNull(message = "密码不能为空")

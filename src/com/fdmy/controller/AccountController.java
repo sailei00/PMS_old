@@ -88,7 +88,6 @@ public class AccountController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(@Valid Account acc, BindingResult br) throws Exception {
 		if (br.hasErrors()) {
-			System.out.println("======================");
 			List<ObjectError> errorList = br.getAllErrors();
 			for (ObjectError error : errorList) {
 				System.out.println(error.getDefaultMessage());

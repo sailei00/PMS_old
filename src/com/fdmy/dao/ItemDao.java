@@ -8,6 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fdmy.model.Item;
+import com.fdmy.util.SystemContext;
+import com.github.pagehelper.PageHelper;
 
 @Repository("itemDao")
 public class ItemDao implements IItemDao {
@@ -41,7 +43,13 @@ public class ItemDao implements IItemDao {
 
 	@Override
 	public List<Item> query(Item item) {
-		return sessionTemplate.selectList(Item.class.getName() + ".query", item);
+		int pageSize = SystemContext.getPageSize();
+		int pageNo = SystemContext.getPageNo();
+		PageHelper.startPage(pageNo, pageSize);
+		System.out.println("分页查询：pageSize=" + pageSize + ",pageNo = " + pageNo);
+		List<Item> list = sessionTemplate.selectList(Item.class.getName() + ".query", item);
+		
+		return list;
 	}
 
 }

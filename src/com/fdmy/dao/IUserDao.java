@@ -16,4 +16,6 @@ public interface IUserDao {
 	public List<User> query(User user);
 	
 	public User login(String usercode,String password);
+	
+	public void changePassword(User user);
 }

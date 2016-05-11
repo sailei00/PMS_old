@@ -171,7 +171,9 @@ button, input, select,label,img,p{ vertical-align:middle;}
             	</form>
             </div>
             <div class="login_corp">
-                copyright©2016 山西三元福达煤业安全指挥中心  毋雷</div>
+                山西三元福达煤业安全指挥中心  毋雷
+                <br/><br/>
+                <center>2016.5</center></div>
         </div>
     </div>
 

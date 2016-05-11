@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>库存查询</title>
+<link rel="stylesheet" type="text/css" href="/css/basecss.css">
 </head>
 <body>
 	<h1 align="center">库存查询</h1>
@@ -14,7 +15,7 @@
 			物料编码：<input type="text" name="itemCode" /> 
 			物料名称：<input type="text" name="itemName" /> 
 			物料型号：<input type="text" name="model" />
-			部门：<input type="text" name="department" />
+			部门：<input type="text" name="department"  <c:if test="${loginuser.usertype eq 1}" > value="${loginuser.department}"   readonly</c:if> />
 			 <br />
 			<input type="submit" value="查询" /> <a href="/">返回</a>
 		</div>

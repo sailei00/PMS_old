@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>出入库单</title>
+<link rel="stylesheet" type="text/css" href="/css/basecss.css">
 <script language="javascript" type="text/javascript" src="<%=request.getContextPath()%>/datepicker/WdatePicker.js"></script>
 <script type="text/javascript">
 //获取Node的offset值，返回一个map
@@ -29,8 +30,9 @@ function showSearchPage(obj) {
 	var inputPlanTable = document.getElementById("inputPlanTable");
 	offset = getOffset(inputPlanTable);
 	searchDiv.style.display = "block";
-	searchDiv.style.left = offset.left +  inputPlanTable.offsetWidth + "px";
-	searchDiv.style.top = offset.top + "px";
+	
+	//searchDiv.style.left = offset.left +  inputPlanTable.offsetWidth + "px";
+	//searchDiv.style.top = offset.top + "px";
 	
 	if(obj.name == 'itemCode') {
 		searchFrame.src = "/item/queryforadd?source=itemplan&code=" + obj.value;
@@ -40,15 +42,11 @@ function showSearchPage(obj) {
 		searchFrame.src = "/item/queryforadd?source=itemplan&model=" + obj.value;
 	}
 	
+	
+	var srctext = document.getElementById("srctext");
+	srctext.value = searchFrame.src;
 }
 </script>
-<style type="text/css">
-* {
-	margin: 0px;
-	padding: 0px;
-/*	border: 0px solid red;*/
-}
-</style>
 </head>
 <body>
 <form:form method="post"  modelAttribute="itemPlan">
@@ -106,10 +104,10 @@ function showSearchPage(obj) {
 	</table>
 </center>
 	</form:form>
-
-
-	<div id="searchDiv" style="display:none;position:absolute;">
+<center>
+	<div id="searchDiv" align="center"  style="display:none;">
 		<iframe id="searchFrame"  ></iframe>
 	</div>
+</center>
 </body>
 </html>

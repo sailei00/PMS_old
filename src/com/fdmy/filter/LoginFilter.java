@@ -38,13 +38,8 @@ public class LoginFilter implements Filter {
 		HttpServletRequest hsq = (HttpServletRequest) request;
 		User user = (User) hsq.getSession().getAttribute("loginuser");
 		if (user == null) {
-			System.out.println("未发现登录用户");
 			((HttpServletResponse) response).sendRedirect("/login");
-		} else {
-			System.out.println("发现已登录用户：" + user.getUsername());
-		}
-		
-		System.out.println("通过登录过滤器");
+		} 
 		chain.doFilter(request, response);
 	}
 

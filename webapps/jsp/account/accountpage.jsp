@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<jsp:useBean id="now" class="java.util.Date" scope="page"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>出入库单</title>
+<link rel="stylesheet" type="text/css" href="/css/basecss.css">
 <script language="javascript" type="text/javascript" src="<%=request.getContextPath()%>/datepicker/WdatePicker.js"></script>
 <script type="text/javascript">
 //获取Node的offset值，返回一个map
@@ -91,7 +93,8 @@ function showSearchPage(obj) {
 		<tr>
 			<td>数量：</td>
 			<td>
-				<form:input path="number"/><form:errors path="number" cssStyle="color:red"/>
+				<!-- 录入时间24小时后不允许修改数量      (每天是86400000毫秒)  -->
+				<form:input path="number"  readonly="${account.createTime.time + 86400000 < now.time}" /><form:errors path="number" cssStyle="color:red"/>
 			</td>
 			<td>计量单位：</td>
 			<td>
@@ -141,9 +144,10 @@ function showSearchPage(obj) {
 </center>
 	</form:form>
 
-
-	<div id="searchDiv" style="display:none;position:absolute;top:30px;left:300px">
+<center>
+	<div id="searchDiv" style="display:none;">
 		<iframe id="searchFrame"  ></iframe>
 	</div>
+</center>
 </body>
 </html>

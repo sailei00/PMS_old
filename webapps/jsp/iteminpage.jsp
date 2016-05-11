@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://jsptags.com/tags/navigation/pager" prefix="pg" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查询物料</title>
+<link rel="stylesheet" type="text/css" href="/css/basecss.css">
 <style type="text/css">
 html { overflow-x: hidden; overflow-y: hidden; }/*隐藏横向滚动，垂直滚动根据内容自适应（去除IE默认垂直滚动条）*/ 
 .itemsearch {
@@ -20,6 +22,7 @@ var iframeLoaded = function (iframe) {
             var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
             var height = Math.max(bHeight, dHeight);
             iframe.height = height;
+            iframe.width = "800px";
         }
     }
 }
@@ -72,7 +75,7 @@ function selectItem(t) {
 </script>
 </head>
 <body onload="reSetIframeHeight()">
-	<form name="fm" action="<%=request.getContextPath()%>/item/queryforadd" method="GET">
+	<form name="fm" action="/item/queryforadd" method="GET">
 	<input type="hidden" value="${source}" name="source" id="source">
 		<center>
 			<table border="1">
@@ -94,6 +97,39 @@ function selectItem(t) {
 			<c:if test="${not empty itemList }">
 				<table border="1">
 					<caption>查询结果</caption>
+					<tr>
+						<td colspan="8" align="center">
+						<pg:pager url="/item/queryforadd" items="${pageInfo.total}"  maxPageItems="${pageInfo.pageSize}"  export="currPageNo=pageNumber">
+						<pg:param name="code"/>
+						<pg:param name="name"/>
+						<pg:param name="model"/>
+						<pg:param name="source"/>
+						共查询到${pageInfo.total} 条数据，
+							<pg:first>
+								<a href="${pageUrl }"  >首页</a>         
+							</pg:first>
+							<pg:prev>
+								<a href="${pageUrl }"  >上一页</a>
+							</pg:prev>
+							<pg:pages>
+								<c:choose>
+						         <c:when test="${pageNumber eq currPageNo}">
+						                  [${pageNumber}]
+						         </c:when>
+						         <c:otherwise>
+						                  <a href="${pageUrl }"  >${pageNumber}</a>
+						         </c:otherwise>
+								</c:choose>
+							</pg:pages>
+							<pg:next>
+								<a href="${pageUrl }"  >下一页</a>
+							</pg:next>
+							<pg:last>
+								<a href="${pageUrl }"  >尾页</a>
+							</pg:last>
+						</pg:pager>
+						</td>
+					</tr>
 					<tr>
 						<td align="center">编码</td>
 						<td align="center">名称</td>

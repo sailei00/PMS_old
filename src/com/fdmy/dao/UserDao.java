@@ -49,4 +49,11 @@ public class UserDao implements IUserDao {
 		return sessionTemplate.selectOne(User.class.getName() + ".login", usercode);
 	}
 
+	@Override
+	public void changePassword(User user) {
+		sessionTemplate.update(User.class.getName() + ".changepassword", user);
+	}
+	
+	
+
 }

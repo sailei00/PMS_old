@@ -54,13 +54,10 @@ public class StockController {
 
 	@RequestMapping(value = "/checkstock", method = RequestMethod.GET)
 	public String checkStock(StockParamVO vo, Model model) {
-		System.out.println(1);
-		System.out.println(vo.getDepartment());
 		List<Account> resultList = new ArrayList<Account>(); // 定义最后的查询结果对象
 		boolean checkAllItem = vo.getItemCode() == null || vo.getItemCode().equals("");
 		// 如果itemCode没有传值，则查询所有itemcode的库存信息
 		if (checkAllItem) {
-			System.out.println(2);
 			// =========================多次查询数据库的算法====start===============
 			/*
 			 * // 先查询所有itemcode的入库信息 vo.setType(1); List<Account> inList =
@@ -101,7 +98,6 @@ public class StockController {
 		}
 		// 如果itemCode不为空，则查询该itemcode的库存信息
 		else {
-			System.out.println(3);
 			// type为1的数据为入库信息
 			vo.setType(1);
 			// 查询入库数量，查询结果只有一条
@@ -141,7 +137,6 @@ public class StockController {
 			}
 		}
 
-		System.out.println(4);
 		model.addAttribute("stockList", resultList);
 		return "/stock/stockindex";
 	}

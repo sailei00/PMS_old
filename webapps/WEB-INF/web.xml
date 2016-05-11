@@ -81,4 +81,18 @@
 		<filter-name>LoginFilter</filter-name>
 		<url-pattern>/</url-pattern>
 	</filter-mapping>
+	<filter>
+		<display-name>SystemContextFilter</display-name>
+		<filter-name>SystemContextFilter</filter-name>
+		<filter-class>com.fdmy.filter.SystemContextFilter</filter-class>
+		<init-param>
+			<description>默认每页20条数据</description>
+			<param-name>pageSize</param-name>
+			<param-value>20</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SystemContextFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

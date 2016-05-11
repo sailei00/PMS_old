@@ -86,7 +86,7 @@ public class ItemPlanController {
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
 	public String update(@PathVariable String id, Model model) throws Exception {
 		ItemPlan plan = itemPlanService.load(id);
-		model.addAttribute("itemplan", plan);
+		model.addAttribute("itemPlan", plan);
 		return "/itemplan/itemplanpage";
 	}
 

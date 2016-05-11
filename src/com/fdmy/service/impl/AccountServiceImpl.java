@@ -51,7 +51,6 @@ public class AccountServiceImpl implements IAccountService {
 		} else if (type == 1) { // 1入库
 			Double num = acc.getNumber();
 			Double amount = item.getAmount();
-			System.out.println(num + amount);
 			item.setAmount(num + amount);
 		}
 		accountDao.add(acc);

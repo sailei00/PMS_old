@@ -25,7 +25,7 @@
 		delete from t_itemplan where id = #{id}
 	</delete>
 
-	<select id="load" parameterType="int" resultType="ItemPlan">
+	<select id="load" parameterType="String" resultType="ItemPlan">
 		select a.*,b.name as itemName,b.model as itemModel,b.unit as itemUnit from t_itemplan a,t_item b where id = #{id} and a.itemcode = b.code
 	</select>
 

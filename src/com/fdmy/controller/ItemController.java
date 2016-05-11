@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fdmy.model.Item;
 import com.fdmy.service.IItemService;
+import com.github.pagehelper.PageInfo;
 
 @Controller("itemController")
 @RequestMapping("/item")
 public class ItemController {
-//	private BeanFactory factory = new ClassPathXmlApplicationContext("beans.xml");
-//	private IItemService service = factory.getBean("itemService", ItemServiceImpl.class);
-//	private IItemService service = new ItemServiceImpl();
 	private IItemService itemService;
 	
 	public IItemService getItemService() {
@@ -49,9 +47,10 @@ public class ItemController {
 		// 利用搜索对象查询结果
 		List<Item> itemList = new ArrayList<Item>();
 		itemList = itemService.query(itemQueryBean);
-
+		PageInfo<Item> page = new PageInfo<Item>(itemList);
 //		model.addAttribute("itemQueryBean", itemQueryBean);
 		model.addAttribute("itemList", itemList);
+		model.addAttribute("pageInfo", page);
 		return "/item/itemindex";
 	}
 
@@ -62,9 +61,10 @@ public class ItemController {
 		// 利用搜索对象查询结果
 		List<Item> itemList = new ArrayList<Item>();
 		itemList = itemService.query(itemQueryBean);
-		System.out.println(source+"★★★★★★★★★★★★★★★★★★★★★★★★★★");
+		PageInfo<Item> page = new PageInfo<Item>(itemList);
 		model.addAttribute("source", source);
 		model.addAttribute("itemList", itemList);
+		model.addAttribute("pageInfo", page);
 		return "/iteminpage";
 	}
 	
