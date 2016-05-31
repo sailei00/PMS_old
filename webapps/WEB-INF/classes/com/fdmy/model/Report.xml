@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fdmy.model.Report">
+
+	<select id="getreport" parameterType="ReportVO" resultType="ReportVO">
+		select item_code as itemCode ,item_name as itemName,item_model as model,sum(number) as number,price,sum(amount) as amount
+		 from t_account where  type = '0'
+		<if test="department != null and department != ''" > and department = #{department} </if>
+		<if test="month != null and month != ''" > and date_format(opt_time,'%Y-%m') = #{month}	</if>
+		group by item_code,item_name,item_model 
+	</select>
+	
+	<select id="getcost" parameterType="ReportVO" resultType="hashMap">
+		select '承包费' as costtype,sum(price) as price from t_account where type = '1' <if test="department != null and department != ''" > and department = #{department} </if> and costtype = '承包费'
+		union
+		select '安全费' as costtype,sum(price) as price from	t_account where type = '1' <if test="department != null and department != ''" > and department = #{department} </if> and costtype = '安全费'
+		union
+		select '生产费' as costtype,sum(price) as price from t_account where type = '1' <if test="department != null and department != ''" > and department = #{department} </if> and costtype = '生产费'
+		union
+		select '掘进费' as costtype,sum(price) as price from t_account where type = '1' <if test="department != null and department != ''" > and department = #{department} </if> and costtype = '掘进费'
+	</select>
+	
+</mapper>

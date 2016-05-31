@@ -1,9 +1,11 @@
 package com.fdmy.model;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -13,6 +15,9 @@ import org.hibernate.validator.constraints.Range;
  * 流水账
  */
 public class Account {
+
+	DecimalFormat df = new DecimalFormat("0.00");
+
 	/** 属性账目编号 */
 	private String id;
 	/** 属性物料编码相关信息 */
@@ -21,8 +26,15 @@ public class Account {
 	 * 属性单据类型 0 出库，1入库 ,9：默认（出现9则是异常）
 	 */
 	private int type = 9;
+
+	/** 单价 */
+	private double price;
+	/** 金额 */
+	private double amount;
+	/** 费用类型（承包费、掘进费、生产费、安全费） */
+	private String costType;
 	/** 属性数量 */
-	private Double number;
+	private double number;
 	/** 属性归属单位 */
 	private String department;
 	/** 属性操作员 */
@@ -40,6 +52,7 @@ public class Account {
 	/** 属性最后修改人 */
 	private String updater;
 
+	@NotNull(message = "办理时间不能为空")
 	public Date getOptTime() {
 		return optTime;
 	}
@@ -91,13 +104,22 @@ public class Account {
 		this.type = type;
 	}
 
+	@NotBlank(message = "请选择费用类别")
+	public String getCostType() {
+		return costType;
+	}
+
+	public void setCostType(String costType) {
+		this.costType = costType;
+	}
+
 	@NotNull(message = "请填写数量")
-	public Double getNumber() {
+	public double getNumber() {
 		return number;
 	}
 
-	public void setNumber(Double number) {
-		this.number = number;
+	public void setNumber(double number) {
+		this.number = Double.parseDouble(df.format(number));
 	}
 
 	@NotBlank(message = "部门信息不能为空")
@@ -139,6 +161,33 @@ public class Account {
 
 	public void setUpdater(String updater) {
 		this.updater = "".equals(updater.trim()) ? null : updater.trim();
+	}
+	
+	
+
+	@DecimalMin(value="0.01",message="请输入单价")
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = Double.parseDouble(df.format(price));
+	}
+
+	@DecimalMin(value="0.01",message="请输入金额")
+	public double getAmount() {
+		return amount;
+	}
+	
+	public void setAmount(double amount) {
+		this.amount = Double.parseDouble(df.format(amount));
+	}
+
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", item=" + item + ", type=" + type + ", number=" + number + ", department="
+				+ department + ", operator=" + operator + ", handler=" + handler + ", reason=" + reason + ", optTime="
+				+ optTime + ", createTime=" + createTime + ", updateTime=" + updateTime + ", updater=" + updater + "]";
 	}
 
 }

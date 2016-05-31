@@ -46,13 +46,14 @@ var reSetIframeHeight = function()
 }
 
 function selectItem(t) {
-	var pcode,pname,pmodel,punit;
+	var pcode,pname,pmodel,punit,pprice;
 	var source = document.getElementById("source");
 	if("account,".indexOf(source.value) >= 0) {
 		pcode = parent.document.getElementById("item.code");
 		pname = parent.document.getElementById("item.name");
 		pmodel = parent.document.getElementById("item.model");
 		punit = parent.document.getElementById("item.unit");
+		pprice = parent.document.getElementById("price");
 	}else if("itemplan,".indexOf(source.value) >= 0) {
 		pcode = parent.document.getElementById("itemCode");
 		pname = parent.document.getElementById("itemName");
@@ -65,10 +66,12 @@ function selectItem(t) {
 	var name = t.cells[1].innerText;
 	var model = t.cells[2].innerText;
 	var unit = t.cells[3].innerText;
+	var price = t.cells[4].innerText;
 	pcode.value = code;
 	pname.value = name;
 	pmodel.value = model;
 	punit.value = unit;
+	pprice.value = price;
 	parent.document.getElementById('searchDiv').style.display = "none";
 }
 
@@ -135,12 +138,14 @@ function selectItem(t) {
 						<td align="center">名称</td>
 						<td align="center">型号</td>
 						<td align="center">计量单位</td>
+						<td align="center">单价</td>
 						<c:forEach items="${itemList}" var="it" begin="0">
 							<tr onmouseover="this.style.color='red'" onmouseout="this.style.color=''" onclick="selectItem(this)">
 								<td align="center">${it.code}</td>
 								<td align="center">${it.name}</td>
 								<td align="center">${it.model}</td>
 								<td align="center">${it.unit}</td>
+								<td align="center">${it.price}</td>
 						</c:forEach>
 				</table>
 			</c:if>

@@ -18,8 +18,8 @@
 		</association>
 	</resultMap>
 	
-	<select id = "checkstock"  resultMap = "stockresultMap">
-		select item_code,item_name,item_model,unit,type,department,sum(number) as number from t_account 
+	<select id = "checkstock"  resultType="Stock" >
+		select item_code as itemcode,item_name as itemname,item_model as itemmodel,unit as itemunit,type,department,sum(number) as number from t_account 
 		<where>
 			<choose>
 				<when test="itemCode != null">

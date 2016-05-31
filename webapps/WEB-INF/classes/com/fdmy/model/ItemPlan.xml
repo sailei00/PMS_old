@@ -5,8 +5,8 @@
 
 	<insert id="add" parameterType="ItemPlan">
 		insert into t_itemplan
-		(itemcode,planmonth,department,plannumber,purpose)
-		values(#{itemCode},#{planMonth},#{department},#{planNumber},#{purpose})
+		(itemcode,planmonth,department,plannumber,costtype,purpose,price,amount)
+		values(#{itemCode},#{planMonth},#{department},#{planNumber},#{costType},#{purpose},#{price},#{amount})
 	</insert>
 
 	<update id="update" parameterType="ItemPlan">
@@ -16,7 +16,10 @@
 			<if test="planMonth != null">planmonth = #{planMonth},</if>
 			<if test="department != null">department=#{department},</if>
 			<if test="planNumber  != null">plannumber=#{planNumber},</if>
-			<if test="purpose  != null">purpose=#{purpose}</if>
+			<if test="costType  != null">costtype=#{costType},</if>
+			<if test="purpose  != null">purpose=#{purpose},</if>
+			<if test="price  != null">price=#{price},</if>
+			<if test="amount  != null">amount=#{amount} </if>
 		</set>
 		where id = #{id}
 	</update>
@@ -26,7 +29,9 @@
 	</delete>
 
 	<select id="load" parameterType="String" resultType="ItemPlan">
-		select a.*,b.name as itemName,b.model as itemModel,b.unit as itemUnit from t_itemplan a,t_item b where id = #{id} and a.itemcode = b.code
+		select id,itemCode,name as itemName,model as itemModel,unit as itemUnit,planNumber,department,planMonth,costType,purpose,a.price,a.amount
+		from t_itemplan a,t_item b 
+		where id = #{id} and a.itemcode = b.code
 	</select>
 
 	<select id="loadonebyparam" parameterType="ItemPlan" resultType="ItemPlan">
@@ -34,7 +39,7 @@
 	</select>
 	
 	<select id="query" parameterType="ItemPlan" resultType="ItemPlan">
-		select id,itemCode,name as itemName,model as itemModel,unit as itemUnit,planNumber,department,planMonth
+		select id,itemCode,name as itemName,model as itemModel,unit as itemUnit,planNumber,department,planMonth,costType,purpose,a.price,a.amount
 		from t_itemplan a,t_item b
 		<where>
 			 a.itemcode = b.code 
@@ -42,8 +47,10 @@
 			<if test="itemName != null"> and name like '%${itemName}%'	</if>
 			<if test="itemModel != null"> and model like '%${itemModel}%'	</if>
 			<if test="planMonth != null"> and planmonth = #{planMonth}</if>
+			<if test="costType != null and costType != ''"> and costType = #{costType}</if>
 			<if test="department != null">and department=#{department}</if>
 		</where>
+		order by planMonth,department
 	</select>
 	
 	

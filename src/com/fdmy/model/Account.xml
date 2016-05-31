@@ -5,15 +5,15 @@
 
 	<insert id="add" parameterType="Account">
 		insert into t_account
-		(type,item_code,item_name,item_model,unit,number,department,operator,handler,reason,opt_time,create_time,update_time,updater)
-		values(#{type},#{item.code},#{item.name},#{item.model},#{item.unit},#{number},#{department},#{operator},#{handler},#{reason},#{optTime},#{createTime},#{updateTime},#{updater})
+		(type,item_code,item_name,item_model,unit,price,amount,number,department,operator,handler,reason,opt_time,create_time,update_time,updater,costtype)
+		values(#{type},#{item.code},#{item.name},#{item.model},#{item.unit},#{price},#{amount},#{number},#{department},#{operator},#{handler},#{reason},#{optTime},#{createTime},#{updateTime},#{updater},#{costType})
 	</insert>
 
 	<update id="update" parameterType="Account">
 		update t_account
 		set
-		type=#{type},item_code=#{item.code},item_name=#{item.name},item_model=#{item.model},unit=#{item.unit},number=#{number},
-		department=#{department},operator=#{operator},handler=#{handler},reason=#{reason},
+		type=#{type},item_code=#{item.code},item_name=#{item.name},item_model=#{item.model},unit=#{item.unit},price=#{price},amount=#{amount},
+		number=#{number},department=#{department},operator=#{operator},handler=#{handler},reason=#{reason},costtype=#{costType},
 		opt_time=#{optTime},create_time=#{createTime},update_time=now(),updater=#{updater}
 		where id = #{id}
 	</update>
@@ -53,9 +53,11 @@
 				<if test="item.code!=null"> and item_code like '%${item.code}%'	</if>
 				<if test="item.name!=null"> and item_name like '%${item.name}%' </if>
 				<if test="item.model!=null"> and item_model like '%${item.model}%' </if>
-				<if test="department!=null"> and department = #{department} </if>
 			</if>
+			<if test="department!=null"> and department = #{department} </if>
+			<if test="costType!=null and costType != ''"> and costType = #{costType}  </if>
 		</where>
+		order by opt_time
 	</select>
 	
 </mapper>

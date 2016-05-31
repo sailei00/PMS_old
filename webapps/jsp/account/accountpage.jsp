@@ -8,52 +8,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>出入库单</title>
 <link rel="stylesheet" type="text/css" href="/css/basecss.css">
-<script language="javascript" type="text/javascript" src="<%=request.getContextPath()%>/datepicker/WdatePicker.js"></script>
-<script type="text/javascript">
-//获取Node的offset值，返回一个map
-function getOffset(Node, offset) {
-	if (!offset) {
-		offset = {};
-		offset.top = 0;
-		offset.left = 0;
-	}
-	if (Node == document.body) {//当该节点为body节点时，结束递归
-		return offset;
-	}
-	offset.top += Node.offsetTop;
-	offset.left += Node.offsetLeft;
-	return getOffset(Node.parentNode, offset);//向上累加offset里的值
-}
-
-function showSearchPage(obj) {
-	var searchDiv = document.getElementById("searchDiv");
-	var searchFrame = document.getElementById("searchFrame");
-	var inputAccountTable = document.getElementById("inputAccountTable");
-	offset = getOffset(inputAccountTable);
-	searchDiv.style.display = "block";
-	searchDiv.style.left = offset.left +  inputAccountTable.offsetWidth + "px";
-	searchDiv.style.top = offset.top + "px";
-	
-	if(obj.name == 'item.code') {
-		searchFrame.src = "/item/queryforadd?source=account&code=" + obj.value;
-	} else if (obj.name == 'item.name') {
-		searchFrame.src = "/item/queryforadd?source=account&name=" + obj.value;
-	} else if (obj.name =='item.model') {
-		searchFrame.src = "/item/queryforadd?source=account&model=" + obj.value;
-	}
-	
-}
-</script>
-<style type="text/css">
-* {
-	margin: 0px;
-	padding: 0px;
-/*	border: 0px solid red;*/
-}
-</style>
+<script language="javascript" type="text/javascript" src="/datepicker/WdatePicker.js"></script>
+<script language="javascript" type="text/javascript" src="/js/jquery-1.12.3.js"></script>
+<script language="javascript" type="text/javascript" src="/jsp/account/accountpage.js"></script>
 </head>
 <body>
-<form:form method="post"  modelAttribute="account">
+<form:form method="post"  modelAttribute="account" onsubmit="return checkForm();">
+	<form:hidden path="updateTime"  readonly="true" />
  <center>
 	<c:if test="${not empty id}">修改<c:if test="${account.type==0}">出库单</c:if><c:if test="${account.type==1}">入库单</c:if></c:if><c:if test="${empty id }">添加单据</c:if>
 	<c:if test="${not empty id}"><form:label path="id" cssStyle="background-color:#F0F0F0;color:#9933CC;border-style: solid;  border-width: 1px;  border-color: gray;">${id}</form:label></c:if>
@@ -82,7 +43,7 @@ function showSearchPage(obj) {
 			<td>名称：</td>
 			<td>
 				<div style="display:block;position:relative">
-					<form:input path="item.name"  ondblclick="showSearchPage(this)" cssStyle="border:#999 1px solid;height:20px;background:#fff url(/images/search.png)  no-repeat right;"/><form:errors path="item.name" ></form:errors>
+					<form:input path="item.name"  ondblclick="showSearchPage(this)" cssStyle="border:#999 1px solid;height:20px;background:#fff url(/images/search.png)  no-repeat right;"/><form:errors path="item.name"  cssStyle="color:red"></form:errors>
 				</div>
 			</td>
 			<td>型号：</td>
@@ -91,15 +52,26 @@ function showSearchPage(obj) {
 			</td>
 		</tr>
 		<tr>
+			<td>单位：</td>
+			<td>
+				<form:input path="item.unit"  />
+			</td>
 			<td>数量：</td>
 			<td>
 				<!-- 录入时间24小时后不允许修改数量      (每天是86400000毫秒)  -->
 				<form:input path="number"  readonly="${account.createTime.time + 86400000 < now.time}" /><form:errors path="number" cssStyle="color:red"/>
 			</td>
-			<td>计量单位：</td>
+		</tr>
+		<tr>
+			<td>单价：</td>
 			<td>
-				<form:input path="item.unit" readonly="true"/>
+				<form:input path="price"  /><form:errors path="price" cssStyle="color:red"/>
 			</td>
+			<td>金额：</td>
+			<td>
+				<form:input path="amount"  /><form:errors path="amount" cssStyle="color:red"/>
+			</td>
+		
 		</tr>
 		<tr>
 			<td>归属部门：</td>
@@ -118,7 +90,7 @@ function showSearchPage(obj) {
 			</td>
 			<td>办理时间：</td>
 			<td>
-				<form:input path="optTime" cssClass="Wdate" onfocus="WdatePicker({firstDayOfWeek:1})"/>
+				<form:input path="optTime" cssClass="Wdate" onfocus="WdatePicker({firstDayOfWeek:1})"/><form:errors  path="optTime" cssStyle="color:red"/>
 			</td>
 		</tr>
 		<tr>
@@ -126,9 +98,16 @@ function showSearchPage(obj) {
 			<td>
 				<form:input path="createTime"  readonly="true"/>
 			</td>
-			<td>最后修改时间：</td>
+			<td>费用类别：</td>
 			<td>
-				<form:input path="updateTime"  readonly="true" />
+				<form:select path="costType">
+					<form:option value="">请选择</form:option>
+					<form:option value="承包费">承包费</form:option>
+					<form:option value="掘进费">掘进费</form:option>
+					<form:option value="生产费">生产费</form:option>
+					<form:option value="安全费">安全费</form:option>
+				</form:select>
+				<form:errors  path="costType" cssStyle="color:red"/>
 			</td>
 		</tr>
 		<tr>
@@ -138,7 +117,7 @@ function showSearchPage(obj) {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4" align="center"><input type="submit" value="保存" />	<a href="<%=request.getContextPath()%>/account/index">返回</a></td>
+			<td colspan="4" align="center"><input type="submit" value="保存" />	<a href="/account/index">返回</a></td>
 		</tr>
 	</table>
 </center>

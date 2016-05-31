@@ -4,6 +4,7 @@
 <configuration>
 	<typeAliases>
 		<package name="com.fdmy.model"/>
+		<package name="com.fdmy.controller.vo"/>
 	</typeAliases>
 
 	<!-- 
@@ -50,6 +51,7 @@
 		<mapper resource="com/fdmy/model/ItemPlan.xml"/>
 		<mapper resource="com/fdmy/model/Account.xml"/>
 		<mapper resource="com/fdmy/model/Stock.xml"/>
+		<mapper resource="com/fdmy/model/Report.xml"/>
 		<mapper resource="com/fdmy/model/User.xml"/>
 		<mapper resource="com/fdmy/model/UtiCode.xml"/>
 	</mappers>

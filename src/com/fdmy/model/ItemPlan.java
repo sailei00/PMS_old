@@ -1,20 +1,33 @@
 package com.fdmy.model;
 
+import java.text.DecimalFormat;
+
+import javax.validation.constraints.DecimalMin;
+
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class ItemPlan {
+
+	DecimalFormat df = new DecimalFormat("0.00");
+
 	private String id;
 	private String itemCode;
 	private String itemName;
 	private String itemModel;
 	private String itemUnit;
-	
+
 	private String planMonth;
 	private String department;
-	private int planNumber;
+	private double planNumber;
+	/** 单价 */
+	private double price;
+	/** 金额 */
+	private double amount;
 	private String purpose;
-	
-	@NotEmpty(message="物料名称不能为空")
+	private String costType; // 费用类别（承包费、掘进费、生产费、安全费）
+
+	@NotEmpty(message = "物料名称不能为空")
 	public String getItemName() {
 		return itemName;
 	}
@@ -39,7 +52,6 @@ public class ItemPlan {
 		this.itemUnit = "".equals(itemUnit) ? null : itemUnit;
 	}
 
-
 	public String getId() {
 		return id;
 	}
@@ -48,7 +60,6 @@ public class ItemPlan {
 		this.id = "".equals(id) ? null : id;
 	}
 
-	@NotEmpty(message="物料编码不能为空")
 	public String getItemCode() {
 		return itemCode;
 	}
@@ -57,7 +68,7 @@ public class ItemPlan {
 		this.itemCode = "".equals(itemCode) ? null : itemCode;
 	}
 
-	@NotEmpty(message="请填写计划月份")
+	@NotEmpty(message = "请填写计划月份")
 	public String getPlanMonth() {
 		return planMonth;
 	}
@@ -66,7 +77,7 @@ public class ItemPlan {
 		this.planMonth = "".equals(planMonth) ? null : planMonth;
 	}
 
-	@NotEmpty(message="归属部门不能为空")
+	@NotEmpty(message = "归属部门不能为空")
 	public String getDepartment() {
 		return department;
 	}
@@ -75,11 +86,12 @@ public class ItemPlan {
 		this.department = "".equals(department) ? null : department;
 	}
 
-	public int getPlanNumber() {
+	@DecimalMin(value = "0.01", message = "请输入计划数量")
+	public double getPlanNumber() {
 		return planNumber;
 	}
 
-	public void setPlanNumber(int planNumber) {
+	public void setPlanNumber(double planNumber) {
 		this.planNumber = planNumber;
 	}
 
@@ -89,6 +101,40 @@ public class ItemPlan {
 
 	public void setPurpose(String purpose) {
 		this.purpose = "".equals(purpose) ? null : purpose;
+	}
+
+	@NotBlank(message = "请选择费用类别")
+	public String getCostType() {
+		return costType;
+	}
+
+	public void setCostType(String costType) {
+		this.costType = costType;
+	}
+
+	@DecimalMin(value = "0.01", message = "请输入单价")
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = Double.parseDouble(df.format(price));
+	}
+
+	@DecimalMin(value = "0.01", message = "请输入金额")
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = Double.parseDouble(df.format(amount));
+	}
+
+	@Override
+	public String toString() {
+		return "ItemPlan [id=" + id + ", itemCode=" + itemCode + ", itemName=" + itemName + ", itemModel=" + itemModel
+				+ ", itemUnit=" + itemUnit + ", planMonth=" + planMonth + ", department=" + department + ", planNumber="
+				+ planNumber + ", purpose=" + purpose + ", costType=" + costType + "]";
 	}
 
 }

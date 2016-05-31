@@ -15,8 +15,8 @@
     }
 </script>
 </head>
-<frameset rows="60,*"  frameborder="yes"  border="1">
-	<frame src="/jsp/header.html" scrolling="no" noresize="noresize">
+<frameset rows="40,*"  frameborder="yes"  border="1">
+	<frame src="/jsp/header.jsp" scrolling="no" noresize="noresize">
 	<frame id="_content"  name="_content"  />
 </frameset>
 </html>

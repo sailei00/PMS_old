@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fdmy.controller.vo.StockParamVO;
 import com.fdmy.dao.IItemPlanDao;
 import com.fdmy.dao.IStockDao;
-import com.fdmy.model.Account;
 import com.fdmy.model.ItemPlan;
+import com.fdmy.model.Stock;
 
 /*
  * 库存相关操作控制器
@@ -54,7 +54,7 @@ public class StockController {
 
 	@RequestMapping(value = "/checkstock", method = RequestMethod.GET)
 	public String checkStock(StockParamVO vo, Model model) {
-		List<Account> resultList = new ArrayList<Account>(); // 定义最后的查询结果对象
+		List<Stock> resultList = new ArrayList<Stock>(); // 定义最后的查询结果对象
 		boolean checkAllItem = vo.getItemCode() == null || vo.getItemCode().equals("");
 		// 如果itemCode没有传值，则查询所有itemcode的库存信息
 		if (checkAllItem) {
@@ -74,16 +74,16 @@ public class StockController {
 			// =========================一次查询数据库 循环取数====start===============
 			// 先查询所有itemcode的入库信息
 			vo.setType(1);
-			List<Account> inList = stockDao.getStockInfo(vo);
+			List<Stock> inList = stockDao.getStockInfo(vo);
 			// 再查询所有itemcode的出库信息
 			vo.setType(0);
-			List<Account> outList = stockDao.getStockInfo(vo);
-			for (Account inAcc : inList) {
+			List<Stock> outList = stockDao.getStockInfo(vo);
+			for (Stock inAcc : inList) {
 				// 每个itemcode 的入库总量
 				double inCount = inAcc.getNumber();
 				// 依次取每个itemcode数据的出库统计数据，每个itemcode只有一条出库统计数据
-				for (Account outAcc : outList) {
-					if (inAcc.getItem().getCode().equals(outAcc.getItem().getCode())
+				for (Stock outAcc : outList) {
+					if (inAcc.getItemcode().equals(outAcc.getItemcode())
 							&& inAcc.getDepartment().equals(outAcc.getDepartment())) {
 						// 如果找到部门相同并且itemcode相同的出库数据，则入库-出库
 						double outCount = outAcc.getNumber();
@@ -100,35 +100,39 @@ public class StockController {
 		else {
 			// type为1的数据为入库信息
 			vo.setType(1);
-			// 查询入库数量，查询结果只有一条
-			List<Account> list = stockDao.getStockInfo(vo);
-			Account acc = list.get(0);
-			// 获取入库总和
-			double inCount = acc.getNumber();
+			// 查询入库数量，查询结果小于等于一条
+			List<Stock> list = stockDao.getStockInfo(vo);
+			if(list.size()>0) {
+				Stock acc = list.get(0);
+				// 获取入库总和
+				double inCount = acc.getNumber();
 
-			// type为0的数据为出库信息
-			vo.setType(0);
-			// 查询出库数量，查询结果只有一条
-			list = stockDao.getStockInfo(vo);
-			acc = list.get(0);
-			double outCount = acc.getNumber();
-			acc.setNumber(inCount - outCount); // 将计算后的库存结果保存在acc对象的number中
-			resultList.add(acc); // 放入结果集
+				// type为0的数据为出库信息
+				vo.setType(0);
+				// 查询出库数量，查询结果小于等于一条
+				list = stockDao.getStockInfo(vo);
+				if(list.size()>0){
+					acc = list.get(0);
+					double outCount = acc.getNumber();
+					acc.setNumber(inCount - outCount); // 将计算后的库存结果保存在acc对象的number中
+					resultList.add(acc); // 放入结果集
+				}
+			}
 		}
 
 		// 计算完库存以后，计算预警级别，库存量小于等于计划量的50%为黄色预警，库存量小于等于计划量的20%为红色预警
 		List<ItemPlan> itemPlanList = itemPlanDao.queryCurrPlan(new ItemPlan()); // 查询当月所有的计划
-		for (Account acc : resultList) {
-			String itemcode = acc.getItem().getCode();
-			String department = acc.getDepartment();
-			double number = acc.getNumber();
+		for (Stock stock : resultList) {
+			String itemcode = stock.getItemcode();
+			String department = stock.getDepartment();
+			double number = stock.getNumber();
 			for (ItemPlan plan : itemPlanList) {
 				if (itemcode.equals(plan.getItemCode()) && department.equals(plan.getDepartment())) {
 					if (plan.getPlanNumber() > 0) {
 						if (number / plan.getPlanNumber() < 0.2) {
-							acc.setReason("red");
+							stock.setColor("red");
 						} else if (number / plan.getPlanNumber() < 0.5) {
-							acc.setReason("yellow");
+							stock.setColor("yellow");
 						}
 					}
 					break;

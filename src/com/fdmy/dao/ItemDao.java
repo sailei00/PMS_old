@@ -46,7 +46,6 @@ public class ItemDao implements IItemDao {
 		int pageSize = SystemContext.getPageSize();
 		int pageNo = SystemContext.getPageNo();
 		PageHelper.startPage(pageNo, pageSize);
-		System.out.println("分页查询：pageSize=" + pageSize + ",pageNo = " + pageNo);
 		List<Item> list = sessionTemplate.selectList(Item.class.getName() + ".query", item);
 		
 		return list;

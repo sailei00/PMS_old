@@ -5,9 +5,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>出入库单</title>
+<title>材料计划录入</title>
 <link rel="stylesheet" type="text/css" href="/css/basecss.css">
-<script language="javascript" type="text/javascript" src="<%=request.getContextPath()%>/datepicker/WdatePicker.js"></script>
+<script language="javascript" type="text/javascript" src="/datepicker/WdatePicker.js"></script>
 <script type="text/javascript">
 //获取Node的offset值，返回一个map
 function getOffset(Node, offset) {
@@ -73,13 +73,13 @@ function showSearchPage(obj) {
 			</td>
 			<td>归属部门：</td>
 			<td>
-				<form:input path="department" /><form:errors  path="department" cssStyle="color:red"/>
+				<form:input path="department"  readonly="true" /><form:errors  path="department" cssStyle="color:red"/>
 			</td>
 		</tr>
 		<tr>
-			<td>计量单位：</td>
+			<td>单位：</td>
 			<td>
-				<form:input path="itemUnit" readonly="true"/>
+				<form:input path="itemUnit"  />
 			</td>
 			<td>计划数量：</td>
 			<td>
@@ -87,9 +87,31 @@ function showSearchPage(obj) {
 			</td>
 		</tr>
 		<tr>
+			<td>单价：</td>
+			<td>
+				<form:input path="price"  /><form:errors path="price" cssStyle="color:red"/>
+			</td>
+			<td>金额：</td>
+			<td>
+				<form:input path="amount"  /><form:errors path="amount" cssStyle="color:red"/>
+			</td>
+		
+		</tr>
+		<tr>
 			<td>计划月份：</td>
 			<td>
 				<form:input path="planMonth"  cssClass="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})"/>
+			</td>
+			<td>费用类别：</td>
+			<td>
+				<form:select path="costType">
+					<form:option value="">请选择</form:option>
+					<form:option value="承包费">承包费</form:option>
+					<form:option value="掘进费">掘进费</form:option>
+					<form:option value="生产费">生产费</form:option>
+					<form:option value="安全费">安全费</form:option>
+				</form:select>
+				<form:errors  path="costType" cssStyle="color:red"/>
 			</td>
 		</tr>
 		<tr>
@@ -99,7 +121,7 @@ function showSearchPage(obj) {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4" align="center"><input type="submit" value="保存" />	<a href="<%=request.getContextPath()%>/itemplan/index">返回</a></td>
+			<td colspan="4" align="center"><input type="submit" value="保存" />	<a href="/itemplan/index">返回</a></td>
 		</tr>
 	</table>
 </center>

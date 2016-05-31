@@ -14,7 +14,7 @@
 	<br>
 	<form name="fm" action="/item/query" method="GET">
 		<center>
-			<table border="1">
+			<table>
 				<tr>
 					<td>物料编码：<input type="text" name="code" />
 					</td>
@@ -26,17 +26,16 @@
 				<tr>
 					<td colspan="3" align="center">
 						<input type="submit" value="查询"/>
-						<c:if test="${loginuser.usertype eq 0}">		<!-- 只有管理员可以操作 物料编码 -->
 							<a href="/item/add">新增</a>
+						<c:if test="${loginuser.usertype eq 0}">		<!-- 只有管理员可以操作 物料编码    |   暂时放开新增权限 -->
 						</c:if>
-						<a href="/">返回</a>
 					</td>
 				</tr>
 			</table>
 			<br/>
 			
 			<c:if test="${not empty itemList }">
-				<table width=" 100%"  border="1">
+				<table width=" 90%"  border="1">
 					<caption>查询结果</caption>
 					<tr>
 						<td colspan="8" align="center">
@@ -89,8 +88,10 @@
 								<td align="center">${it.unit} </td>
 								<td align="center">${it.amount} </td>
 								<td align="center">
-									<c:if test="${loginuser.usertype eq 0}">		<!-- 只有管理员可以操作 物料编码 -->
-										<a href="${it.code}/update">修改</a> <a href="${it.code}/delete">删除</a>
+								
+								<a href="${it.code}/update">修改</a>
+									<c:if test="${loginuser.usertype eq 0}">		<!-- 只有管理员可以操作 物料编码  |  暂时放开修改权限-->
+										 <a href="${it.code}/delete">删除</a>
 									</c:if>
 								</td>
 						</c:forEach>

@@ -49,9 +49,17 @@ public class AccountServiceImpl implements IAccountService {
 		if (type == 0) { // 0出库
 			item.setAmount(item.getAmount() - acc.getNumber());
 		} else if (type == 1) { // 1入库
-			Double num = acc.getNumber();
-			Double amount = item.getAmount();
+			double num = acc.getNumber();
+			double amount = item.getAmount();
 			item.setAmount(num + amount);
+		}
+		// 如果原物料编码信息中没有单位信息，则更新该物料编码信息的单位
+		if (item.getUnit() == null || "".equals(item.getUnit())) {
+			item.setUnit(acc.getItem().getUnit());
+		}
+		// 如果原物料编码信息中没有单价则更新单价信息
+		if(item.getPrice() == 0) {
+			item.setPrice(acc.getPrice());
 		}
 		accountDao.add(acc);
 		itemDao.update(item);
@@ -64,9 +72,9 @@ public class AccountServiceImpl implements IAccountService {
 		Item item = itemDao.load(acc.getItem().getCode());
 		// 先获取单据原数据的number
 		Account oldAcc = accountDao.load(acc.getId());
-		Double oldNumber = oldAcc.getNumber();
+		double oldNumber = oldAcc.getNumber();
 		boolean changedNumber = false;
-		if (!oldNumber.equals(acc.getNumber())) {
+		if (oldNumber != acc.getNumber()) {
 			changedNumber = true;
 		}
 		int type = acc.getType();
@@ -81,7 +89,14 @@ public class AccountServiceImpl implements IAccountService {
 				item.setAmount(item.getAmount() - oldNumber + acc.getNumber());
 			}
 		}
-
+		// 如果原物料编码信息中没有单位信息，则更新该物料编码信息的单位
+		if (item.getUnit() == null || "".equals(item.getUnit())) {
+			item.setUnit(acc.getItem().getUnit());
+		}
+		// 如果原物料编码信息中没有单价则更新单价信息
+		if(item.getPrice() == 0) {
+			item.setPrice(acc.getPrice());
+		}
 		accountDao.update(acc);
 		itemDao.update(item);
 	}
@@ -91,7 +106,7 @@ public class AccountServiceImpl implements IAccountService {
 		// 删除入出库单也需要更新item的库存
 		// 先获取单据原数据的number
 		Account acc = accountDao.load(id);
-		Double number = acc.getNumber();
+		double number = acc.getNumber();
 		Item item = itemDao.load(acc.getItem().getCode());
 		int type = acc.getType();
 		if (type == 0) { // 0 出库单

@@ -32,7 +32,7 @@
 			<td colspan="2" align="center" ><font color=red>${resultMessage }</font></td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center" ><a href="<%=request.getContextPath()%>/item/index">返回</a></td>
+			<td colspan="2" align="center" ><a href="/item/index">返回</a></td>
 		</tr>
 	</table>
 </body>

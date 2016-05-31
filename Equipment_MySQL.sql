@@ -40,7 +40,10 @@ create table t_account
    item_name            varchar(255),
    item_model           varchar(255),
    unit                 varchar(4),
-   number               int not null,
+   price 					decimal(8,2) comment '单价',
+   amount				decimal(8,2) comment '金额',
+   number               float not null,
+   costtype               varchar(255),
    department           varchar(255),
    operator             varchar(255),
    handler              varchar(255),
@@ -60,7 +63,7 @@ create table t_item
    code                 varchar(255) not null comment '唯一性编码',
    name                 varchar(255) not null,
    model                varchar(255),
-   price                numeric(10,2),
+   price                decimal(10,2),
    unit                 varchar(255),
    amount               float comment '全矿库存',
    primary key (code)
@@ -75,7 +78,10 @@ create table t_itemplan
    itemcode             varchar(255) not null,
    planmonth            char(7) not null comment '格式yyyy-mm',
    department           varchar(255) not null,
-   plannumber           int not null,
+   plannumber           float not null,
+   costtype				varchar(255),
+   price 					decimal(8,2) comment '单价',
+   amount				decimal(8,2) comment '金额',
    purpose              varchar(255),
    primary key (id)
 );

@@ -15,26 +15,41 @@
 			物料编码：<input type="text" name="itemCode" /> 
 			物料名称：<input type="text" name="itemName" /> 
 			物料型号：<input type="text" name="model" />
-			部门：<input type="text" name="department"  <c:if test="${loginuser.usertype eq 1}" > value="${loginuser.department}"   readonly</c:if> />
+			部门： <c:if test="${loginuser.usertype eq 1}" ><input type="text" name="department"  value="${loginuser.department}"   readonly/></c:if>
+					<c:if test="${loginuser.usertype ne 1}">
+						<select name="department">
+							<option value="">所有部门</option>
+							<option value="机修厂">机修厂</option>
+							<option value="机电机运队">机电机运队</option>
+							<option value="综掘一队">综掘一队</option>
+							<option value="综掘二队">综掘二队</option>
+							<option value="综采队">综采队</option>
+							<option value="通风科">通风科</option>
+							<option value="生产技术科">生产技术科</option>
+							<option value="机电科">机电科</option>
+						</select>   
+					</c:if>
 			 <br />
-			<input type="submit" value="查询" /> <a href="/">返回</a>
+			<input type="submit" value="查询" /> 
 		</div>
 	</form:form>
-	
-	<c:if test="${not empty stockList}">
-		<table align="center" border=1>
-			<tr><td align="center">部门</td><td align="center">物料编码</td><td align="center">物料名称</td><td align="center">型号</td><td align="center">单位</td><td align="center">库存</td></tr>
-			<c:forEach items="${stockList}" var="li">
-				<tr style="background-color:${li.reason}">
-					<td align="center">${li.department}</td>
-					<td align="center">${li.item.code}</td>
-					<td align="center">${li.item.name}</td>
-					<td align="center">${li.item.model}</td>
-					<td align="center">${li.item.unit}</td>
-					<td align="center">${li.number}</td>
-				</tr>
-			</c:forEach>
-		</table>
-	</c:if>
+	<center>
+		<c:if test="${not empty stockList}">
+			<table align="center" border=1>
+				<tr><td align="center">序号</td><td align="center">部门</td><td align="center">物料编码</td><td align="center">物料名称</td><td align="center">型号</td><td align="center">单位</td><td align="center">库存</td></tr>
+				<c:forEach items="${stockList}" var="li" varStatus="status">
+					<tr style="background-color:${li.color};color:${li.color eq 'red'?'yellow':'black'}">
+						<td align="center">${status.index + 1}</td>
+						<td align="center">${li.department}</td>
+						<td align="center">${li.itemcode}</td>
+						<td align="center">${li.itemname}</td>
+						<td align="center">${li.itemmodel}</td>
+						<td align="center">${li.itemunit}</td>
+						<td align="center">${li.number}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</c:if>
+	</center>
 </body>
 </html>

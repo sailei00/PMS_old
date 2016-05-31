@@ -6,12 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>修改密码</title>
-<style type="text/css">
-* {
-	margin: 0px;
-	padding: 0px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/css/basecss.css">
 </head>
 <body>
 <form:form method="post"  modelAttribute="user">

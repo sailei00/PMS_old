@@ -49,9 +49,17 @@ public class ItemPlanController {
 
 //		model.addAttribute("itemQueryBean", itemQueryBean);
 		model.addAttribute("itemplanlist", list);
-		for (ItemPlan plan : list) {
-			System.out.println(plan.getItemCode() + "|" +plan.getItemName() + "|" + plan.getPlanMonth());
-		}
+		return "/itemplan/itemplanindex";
+	}
+	
+	@RequestMapping(value = "/load", method = RequestMethod.GET)
+	public String load(String  id, Model model) throws Exception {
+		// 根据id查询指定对象
+		List<ItemPlan> list = new ArrayList<ItemPlan>();
+		ItemPlan plan = itemPlanService.load(id);
+		list.add(plan);
+//		model.addAttribute("itemQueryBean", itemQueryBean);
+		model.addAttribute("itemplanlist", list);
 		return "/itemplan/itemplanindex";
 	}
 
@@ -80,7 +88,7 @@ public class ItemPlanController {
 			return "/itemplan/itemplanpage";
 		}
 		itemPlanService.add(itemplan);
-		return "redirect:/itemplan/query?itemcode=" + itemplan.getItemCode() + "&planmonth=" + itemplan.getPlanMonth();
+		return "redirect:/itemplan/query?itemCode=" + itemplan.getItemCode() + "&planMonth=" + itemplan.getPlanMonth();
 	}
 
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
@@ -92,9 +100,9 @@ public class ItemPlanController {
 
 	//RequestMapping的value中指定的id参数，可以当作表单中传递的值对待，此处自动赋值到plan对象中的id字段
 	@RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
-	public String update(ItemPlan plan) throws Exception {
+	public String update(@PathVariable String id,ItemPlan plan) throws Exception {
 		itemPlanService.update(plan);
-		return "redirect:/itemplan/query?itemcode=" + plan.getItemCode() + "&planmonth=" + plan.getPlanMonth();
+		return "redirect:/itemplan/load?id=" + plan.getId();
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)

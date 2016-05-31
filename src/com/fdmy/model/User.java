@@ -12,7 +12,7 @@ public class User {
 	private String password;
 	private String department;
 	/**
-	 * 用户类型 0 : 管理员 1 : 普通用户 9:默认值(未设置)
+	 * 用户类型 0 : 科室， 1 : 队组，  2：领导，    9:默认值(未设置)
 	 */
 	private int usertype = 9;
 	/**

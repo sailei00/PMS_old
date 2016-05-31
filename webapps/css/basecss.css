@@ -1,11 +1,24 @@
-body {
+* {
 	margin: 0px;
 	padding: 0px;
-	
+}
+
+body {
+	background: #efeeea;
+	//background: linear-gradient(#f9f9f9, #cecbc4);
+	//background: -moz-linear-gradient(#f9f9f9, #cecbc4);
+	//background: -webkit-linear-gradient(#f9f9f9, #cecbc4);
+	background: -o-linear-gradient(#f9f9f9, #cecbc4);
+	color: #757575;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 table {
-	empty-cells: show;
 	border-collapse: collapse;
+	border-color: black;
 }
 
+table td {
+	border-color: black;
+	padding: 0px 2px;
+}

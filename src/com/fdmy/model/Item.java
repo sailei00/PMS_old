@@ -6,11 +6,11 @@ public class Item {
 	private String code;
 	private String name;
 	private String model;
-	private Double price;
+	private double price;
 	private String unit;
-	private Double amount;
+	private double amount;
 
-	@NotEmpty(message="编码不能为空")
+	@NotEmpty(message = "编码不能为空")
 	public String getCode() {
 		return code;
 	}
@@ -19,7 +19,7 @@ public class Item {
 		this.code = "".equals(code) ? null : code;
 	}
 
-	@NotEmpty(message="名称不能为空")
+	@NotEmpty(message = "名称不能为空")
 	public String getName() {
 		return name;
 	}
@@ -38,8 +38,8 @@ public class Item {
 		this.model = model;
 	}
 
-	public Double getPrice() {
-		return price == null ? 0 : price;
+	public double getPrice() {
+		return price;
 	}
 
 	public String getUnit() {
@@ -51,17 +51,15 @@ public class Item {
 		this.unit = unit;
 	}
 
-	public Double getAmount() {
-		return amount == null ? 0 : amount;
+	public double getAmount() {
+		return amount;
 	}
 
-	public void setAmount(Double amount) {
-		amount = amount == null ? 0 : amount;
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
-	public void setPrice(Double price) {
-		price = price == null ? 0 : price;
+	public void setPrice(double price) {
 		this.price = price;
 	}
 

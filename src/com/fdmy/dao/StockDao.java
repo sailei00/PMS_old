@@ -8,7 +8,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.fdmy.controller.vo.StockParamVO;
-import com.fdmy.model.Account;
 import com.fdmy.model.Stock;
 
 @Repository("stockDao")
@@ -21,7 +20,7 @@ public class StockDao implements IStockDao {
 	}
 
 	@Override
-	public List<Account> getStockInfo(StockParamVO vo) {
+	public List<Stock> getStockInfo(StockParamVO vo) {
 		return sessionTemplate.selectList(Stock.class.getName() + ".checkstock", vo);
 	}
 
