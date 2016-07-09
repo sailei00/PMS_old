@@ -14,10 +14,6 @@ import com.fdmy.service.IItemService;
 @Service("itemService")
 public class ItemServiceImpl implements IItemService {
 	
-//	private BeanFactory factory = new ClassPathXmlApplicationContext("beans.xml");
-
-//	private IItemDao dao = DaoFactory.getItemDao();
-//	private IItemDao dao = factory.getBean("itemDao", ItemDao.class);
 	private IItemDao itemDao;
 	
 	public IItemDao getItemDao() {

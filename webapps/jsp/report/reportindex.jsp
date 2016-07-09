@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>报表</title>
 <script language="javascript" type="text/javascript" src="/datepicker/WdatePicker.js"></script>
-<script language="javascript" type="text/javascript" src="/js/jquery-1.12.3.js"></script>
+<script language="javascript" type="text/javascript" src="/js/jquery.min.js"></script>
 <script language="javascript" type="text/javascript" src="/js/jquery.spider.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/basecss.css">
 <link rel="stylesheet" type="text/css" href="/css/jquery.spider.css">
@@ -40,7 +40,8 @@
 			if(department == '综掘一队') {
 				$("#drivingtype").show(0).change();
 				$("#ratio2").val(0.9);
-				$("#ratio4").val(0.32);
+				//$("#ratio4").val(0.32);
+				$("#ratio4type").change();
 			}
 			if(department == '综掘二队') {
 				$("#drivingtype").show(0).change();
@@ -91,6 +92,7 @@
 				var result1 ;			//计划量
 				var percent1 ;		//使用比例
 				var mineOrLength;		//产量进尺计算因子
+				var balance1;
 				if(department == '综掘一队' || department == '综掘二队') {
 					mineOrLength = length;
 				} else {
@@ -105,6 +107,13 @@
 					alert('承包费用系数输入有误');
 					return;
 				}
+				balance1 = Number(money1 - result1).toFixed(2);
+				if(balance1>0){
+					$("#balance1").val("超支"+balance1);
+				}
+				if(balance1<0){
+					$("#balance1").val("节余"+Math.abs(balance1));
+				}
 			}
 			
 			
@@ -114,6 +123,7 @@
 				var ratio2 = $("#ratio2").val();		//费用系数
 				var result2 ;			//计划量
 				var percent2 ;		//使用比例
+				var balance2;		//超支/节余
 				if($.isNumeric(ratio2)){
 					result2 = Number(mine * ratio2).toFixed(2);
 					$("#result2").val(result2);
@@ -123,6 +133,13 @@
 					alert('安全费用系数输入有误');
 					return;
 				}
+				balance2 = Number(money2 - result2).toFixed(2);
+				if(balance2>0){
+					$("#balance2").val("超支"+balance2);
+				}
+				if(balance2<0){
+					$("#balance2").val("节余"+Math.abs(balance2));
+				}
 			}
 			
 			/* 计算生产费 */
@@ -131,6 +148,7 @@
 			if(money3 != '' && money3 != null && ratio3!='') {
 				var result3;			//计划量
 				var percent3 ;		//使用比例
+				var balance3;		//超支/节余
 				if($.isNumeric(ratio3)){
 					result3 = Number(mine * ratio3).toFixed(2);
 					$("#result3").val(result3);
@@ -140,6 +158,14 @@
 					alert('生产费用系数输入有误');
 					return;
 				}
+				
+				balance3 = Number(money3 - result3).toFixed(2);
+				if(balance3>0){
+					$("#balance3").val("超支"+balance3);
+				}
+				if(balance3<0){
+					$("#balance3").val("节余"+Math.abs(balance3));
+				}
 			}
 			
 			/* 计算掘进费 */
@@ -148,6 +174,7 @@
 				var ratio4 = $("#ratio4").val();		//费用系数
 				var result4;			//计划量
 				var percent4 ;		//使用比例
+				var balance4;		//超支/节余
 				if($.isNumeric(ratio4)){
 					result4 = Number(mine * ratio4).toFixed(2);
 					$("#result4").val(result4);
@@ -156,6 +183,13 @@
 				} else {
 					alert('掘进费用系数输入有误');
 					return;
+				}
+				balance4 = Number(money4 - result4).toFixed(2);
+				if(balance4>0){
+					$("#balance4").val("超支"+balance4);
+				}
+				if(balance4<0){
+					$("#balance4").val("节余"+Math.abs(balance4));
 				}
 			}
 			
@@ -283,8 +317,8 @@
 					<td>费用系数</td>
 					<td align="center">
 						<select id="drivingtype" style="display:none;" onchange="javascript:ratio1.value=this.value;">
-							<option value="1489.15">运输顺槽(5m×4m)</option>
 							<option value="1644.76">回风顺槽(4.5m×4m)</option>
+							<option value="1489.15">运输顺槽(5m×4m)</option>
 							<option value="1640.11">切眼首次掘进(4.3m×4m)</option>
 							<option value="1321.94">切眼二次掘进(3.9m×4m)</option>
 						</select>
@@ -294,8 +328,8 @@
 					<td align="center"><input id="ratio3"   type="text" class="money"  /></td>
 					<td align="center">
 						<select id="ratio4type" style="display:;" onchange="selectDrivingOrMining(this);">
-							<option value="isDriving">按进尺算</option>
 							<option value="isMining">按产量算</option>
+							<option value="isDriving">按进尺算</option>
 						</select>
 						<input id="ratio4"   type="text" class="money"  />
 					</td>
@@ -313,6 +347,13 @@
 					<td align="center"><input id="percent2" type="text" class="money"/></td>
 					<td align="center"><input id="percent3" type="text" class="money"/></td>
 					<td align="center"><input id="percent4" type="text" class="money"/></td>
+				</tr>
+				<tr>
+					<td>超支/结余</td>
+					<td align="center"><input id="balance1" type="text" class="money"/></td>
+					<td align="center"><input id="balance2" type="text" class="money"/></td>
+					<td align="center"><input id="balance3" type="text" class="money"/></td>
+					<td align="center"><input id="balance4" type="text" class="money"/></td>
 				</tr>
 			</table>
 		</c:if>

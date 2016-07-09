@@ -1,14 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>菜单</title>
 <link rel="stylesheet" type="text/css" href="/css/basecss.css">
+<script language="javascript" type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript">
+	function shownav() {
+		var value = $("#selectnav")[0].value;
+		var nav1 = $("#nav");
+		var nav2 = $("#nav2");
+		if (value == 'nav1') {
+			nav2.hide();
+			nav1.show(300);
+		}
+		if (value == 'nav2') {
+			nav1.hide();
+			nav2.show(300);
+		}
+		
+	}
+</script>
 <style type="text/css">
 
-div#navdiv {
+div#navdiv  {
 	width: 100%;
 	height: 40px;
 	/* 设置IE浏览器中菜单栏的底色渐变  */
@@ -25,13 +41,14 @@ div#navdiv {
 	background-color: initial;
 }
 
-ul#nav {
+ul {
 	padding: 0px 10px;
 	float: left;
 	width: 60%;
 	height: 40px;
 	margin: 0;
 }
+
 
 div#logininfo {
 	color: white;
@@ -48,12 +65,12 @@ div#logininfo  a:hover {
 	background: #0095BB
 }
 
-ul#nav li {
+ul li {
 	display: inline;
 	height: 40px;
 }
 
-ul#nav li a {
+ul li a {
 	display: inline-block;
 	padding: 0px 10px;
 	height: 40px;
@@ -64,7 +81,7 @@ ul#nav li a {
 }
 
 /*设置鼠标滑过或悬停时变化的背景颜色*/
-ul#nav li a:hover {
+ul li a:hover {
 	background: #0095BB
 }
 </style>
@@ -79,7 +96,14 @@ ul#nav li a:hover {
 			<li><a href="/stock/index" target="_content">查询库存</a></li>
 			<li><a href="/report/index" target="_content">使用情况月报</a></li>
 		</ul>
+		<ul id="nav2" style="display:none">
+			<li><a href="/train/documentindex" target="_content">培训管理</a></li>
+		</ul>
 		<div id="logininfo">
+			<select id='selectnav' onchange="shownav()">
+				<option value="nav1">成本管理</option>
+				<option value="nav2">机电管理</option>
+			</select>
 			<span style="font-size: 15px;">${loginuser.username} | ${loginuser.department} |</span>
 			<span style="font-size: 15px;"><a href="/user/changepassword"
 				target="_content">修改密码</a>·<a href="/logout" target="_content">退出登录</a></span>

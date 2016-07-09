@@ -46,7 +46,13 @@
 			<if test="itemCode != null"> and itemcode like '%${itemCode}%'	</if>
 			<if test="itemName != null"> and name like '%${itemName}%'	</if>
 			<if test="itemModel != null"> and model like '%${itemModel}%'	</if>
-			<if test="planMonth != null"> and planmonth = #{planMonth}</if>
+			
+			<if test="planMonthEnd == null and planMonth != null" >and planmonth = #{planMonth}</if>
+			
+			<if test="planMonthEnd != null and planMonth != null"  ><![CDATA[ and planmonth >= #{planMonth} and planmonth <= #{planMonthEnd}]]></if>
+			
+			<if test="planMonthEnd != null and planMonth == null" ><![CDATA[ and planmonth <= #{planMonthEnd}]]></if>
+			
 			<if test="costType != null and costType != ''"> and costType = #{costType}</if>
 			<if test="department != null">and department=#{department}</if>
 		</where>

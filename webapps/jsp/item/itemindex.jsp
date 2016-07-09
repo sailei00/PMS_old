@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/css/basecss.css">
 </head>
 <body> 
-	<center>物料编码管理</center>
+	<h1 align="center">物料编码管理</h1>
 	<br>
 	<form name="fm" action="/item/query" method="GET">
 		<center>
@@ -78,6 +78,7 @@
 						<td align="center">计量单位</td>
 						<td align="center">库存</td>
 						<td align="center">操作</td>
+					</tr>
 						<c:forEach items="${itemList}" var="it" varStatus="status">
 							<tr>
 								<td align="center">${status.index + 1 + (pageInfo.pageNum-1) * pageInfo.pageSize }</td>
@@ -94,6 +95,7 @@
 										 <a href="${it.code}/delete">删除</a>
 									</c:if>
 								</td>
+							</tr>
 						</c:forEach>
 				</table>
 			</c:if>

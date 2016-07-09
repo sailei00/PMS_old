@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fdmy.model.Document">
+
+	<insert id="add" parameterType="Document">
+		insert into t_document
+		(title, filetype, category, uploader, uploadtime, path,filename)
+		values (#{title},#{filetype},#{category},#{uploader},#{uploadtime},#{path},#{filename})
+	</insert>
+
+	<update id="update" parameterType="Document">
+		update t_document
+		<set>
+			<if test="title != null">title =#{title},</if>
+			<if test="filetype != null">filetype = #{filetype},</if>
+			<if test="category != null">category=#{category},</if>
+			<if test="uploader  != null">uploader=#{uploader},</if>
+			<if test="path  != null">path=#{path},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="String">
+		delete from t_document where id = #{id}
+	</delete>
+
+	<select id="load" parameterType="String" resultType="Document">
+		select *	from t_document where id = #{id} 
+	</select>
+
+	<select id="query" parameterType="Document" resultType="Document">
+		select * from t_document
+		<where>
+			<if test="id != null"> and id = #{id}	</if>
+			<if test="title != null"> and title like '%${title}%'	</if>
+			<if test="filetype != null"> and filetype = #{filetype}	</if>
+			<if test="category != null"> and category like '%${category}%'	</if>
+		</where>
+	</select>
+	
+</mapper>

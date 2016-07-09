@@ -52,6 +52,11 @@ public class Account {
 	/** 属性最后修改人 */
 	private String updater;
 
+	/* 查询参数 开始时间 */
+	private String startTime;
+	/* 查询参数 结束时间 */
+	private String endTime;
+
 	@NotNull(message = "办理时间不能为空")
 	public Date getOptTime() {
 		return optTime;
@@ -82,7 +87,9 @@ public class Account {
 	}
 
 	public void setId(String id) {
-		this.id = "".equals(id.trim()) ? null : id.trim();
+		if (id != null) {
+			this.id = "".equals(id.trim()) ? null : id.trim();
+		}
 	}
 
 	@NotNull(message = "物料信息不能为空")
@@ -128,7 +135,8 @@ public class Account {
 	}
 
 	public void setDepartment(String department) {
-		this.department = "".equals(department.trim()) ? null : department.trim();
+		if (department != null)
+			this.department = "".equals(department.trim()) ? null : department.trim();
 	}
 
 	public String getOperator() {
@@ -160,12 +168,11 @@ public class Account {
 	}
 
 	public void setUpdater(String updater) {
-		this.updater = "".equals(updater.trim()) ? null : updater.trim();
+		if (updater != null)
+			this.updater = "".equals(updater.trim()) ? null : updater.trim();
 	}
-	
-	
 
-	@DecimalMin(value="0.01",message="请输入单价")
+	@DecimalMin(value = "0.01", message = "请输入单价")
 	public double getPrice() {
 		return price;
 	}
@@ -174,20 +181,44 @@ public class Account {
 		this.price = Double.parseDouble(df.format(price));
 	}
 
-	@DecimalMin(value="0.01",message="请输入金额")
+	@DecimalMin(value = "0.01", message = "请输入金额")
 	public double getAmount() {
 		return amount;
 	}
-	
+
 	public void setAmount(double amount) {
 		this.amount = Double.parseDouble(df.format(amount));
 	}
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", item=" + item + ", type=" + type + ", number=" + number + ", department="
-				+ department + ", operator=" + operator + ", handler=" + handler + ", reason=" + reason + ", optTime="
-				+ optTime + ", createTime=" + createTime + ", updateTime=" + updateTime + ", updater=" + updater + "]";
+		return "Account [id=" + id + ", item=" + item + ", type=" + type + ", number=" + number + ", department=" + department + ", operator="
+				+ operator + ", handler=" + handler + ", reason=" + reason + ", optTime=" + optTime + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", updater=" + updater + "]";
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		if (startTime == null) {
+			this.startTime = startTime;
+		} else {
+			this.startTime = "".equals(startTime.trim()) ? null : startTime.trim();
+		}
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		if (endTime == null) {
+			this.endTime = endTime;
+		} else {
+			this.endTime = "".equals(endTime.trim()) ? null : endTime.trim();
+		}
 	}
 
 }

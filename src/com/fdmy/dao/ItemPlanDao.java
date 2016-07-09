@@ -47,6 +47,7 @@ public class ItemPlanDao extends BaseDao<ItemPlan> implements IItemPlanDao {
 	}
 	
 	@Override
+	// TODO: 该方法目前默认每月每种材料只有一条记录，sql中没有做count计算
 	public List<ItemPlan> queryCurrPlan(ItemPlan itemPlan) {
 		List<ItemPlan> list = super.query(ItemPlan.class.getName() + ".querycurrplan", itemPlan);
 		return list;

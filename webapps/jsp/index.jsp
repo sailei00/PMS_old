@@ -3,13 +3,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>欢迎</title>
+<title>PMS</title>
 <script language="javascript">
-  	function quit() 
- 	{ 
-        event.returnValue="是否确定要退出页面?";
-  	} 
-  	
   	if (self!=top){
        top.location=self.location;
     }

@@ -44,7 +44,7 @@ public class ItemController {
 
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
 	public String query(Item itemQueryBean, Model model) throws Exception {
-		// 利用搜索对象查询结果
+		// 利用条件bean对象查询结果
 		List<Item> itemList = new ArrayList<Item>();
 		itemList = itemService.query(itemQueryBean);
 		PageInfo<Item> page = new PageInfo<Item>(itemList);

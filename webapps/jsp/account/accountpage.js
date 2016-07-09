@@ -42,7 +42,7 @@ function checkForm() {
 	var amount = $("#amount").val();
 	var number = $("#number").val();
 	var price = $("#price").val();
-	if (amount != number*price) {
+	if (Number(amount) != Number(number*price).toFixed(2)) {
 		alert("金额不等于数量乘单价！");
 		$("#amount").focus();
 		return false;

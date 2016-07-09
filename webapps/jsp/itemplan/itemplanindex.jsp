@@ -15,8 +15,7 @@
 	<div align="center"  >
 		物料编码：<input type="text" name="itemCode" />
 		物料名称：<input type="text" name="itemName" />
-		物料型号：<input type="text" name="itemModel" />
-		<br/>	<br/>
+		<!-- 物料型号：<input type="text" name="itemModel" />  -->
 		部门： <c:if test="${loginuser.usertype eq 1}" ><input type="text" name="department"  value="${loginuser.department}"   readonly/></c:if>
 					<c:if test="${loginuser.usertype ne 1}">
 						<select name="department">
@@ -31,8 +30,10 @@
 							<option value="机电科">机电科</option>
 						</select>
 					</c:if>
+		<br/>	<br/>
 		计划月份：<input type="text" name="planMonth"  class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})"/>
-		费用类别：
+		至<input type="text" name="planMonthEnd"  class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})"/>
+		<span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </span> 费用类别：
 				<select name="costType">
 					<option value="">请选择</option>
 					<option value="承包费">承包费</option>

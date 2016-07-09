@@ -18,6 +18,7 @@ public class ItemPlan {
 	private String itemUnit;
 
 	private String planMonth;
+	private String planMonthEnd;
 	private String department;
 	private double planNumber;
 	/** 单价 */
@@ -135,6 +136,14 @@ public class ItemPlan {
 		return "ItemPlan [id=" + id + ", itemCode=" + itemCode + ", itemName=" + itemName + ", itemModel=" + itemModel
 				+ ", itemUnit=" + itemUnit + ", planMonth=" + planMonth + ", department=" + department + ", planNumber="
 				+ planNumber + ", purpose=" + purpose + ", costType=" + costType + "]";
+	}
+
+	public String getPlanMonthEnd() {
+		return planMonthEnd;
+	}
+
+	public void setPlanMonthEnd(String planMonthEnd) {
+		this.planMonthEnd = "".equals(planMonthEnd) ? null : planMonthEnd;
 	}
 
 }

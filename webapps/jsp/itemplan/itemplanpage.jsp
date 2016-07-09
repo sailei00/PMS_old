@@ -43,8 +43,8 @@ function showSearchPage(obj) {
 	}
 	
 	
-	var srctext = document.getElementById("srctext");
-	srctext.value = searchFrame.src;
+//	var srctext = document.getElementById("srctext");
+//	srctext.value = searchFrame.src;
 }
 </script>
 </head>

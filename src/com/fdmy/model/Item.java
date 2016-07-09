@@ -12,11 +12,11 @@ public class Item {
 
 	@NotEmpty(message = "编码不能为空")
 	public String getCode() {
-		return code;
+		return code == null ? code : code.trim();
 	}
 
 	public void setCode(String code) {
-		this.code = "".equals(code) ? null : code;
+		this.code = "".equals(code) ? null : code.trim();
 	}
 
 	@NotEmpty(message = "名称不能为空")

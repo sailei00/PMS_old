@@ -19,7 +19,7 @@ import com.fdmy.model.User;
 import com.fdmy.service.IReportService;
 
 /*
- * 保镖相关操作控制器
+ * 报表相关操作控制器
  */
 @Controller("reportController")
 @RequestMapping("/report")

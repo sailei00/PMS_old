@@ -9,24 +9,26 @@
 <title>出入库单</title>
 <link rel="stylesheet" type="text/css" href="/css/basecss.css">
 <script language="javascript" type="text/javascript" src="/datepicker/WdatePicker.js"></script>
-<script language="javascript" type="text/javascript" src="/js/jquery-1.12.3.js"></script>
+<script language="javascript" type="text/javascript" src="/js/jquery.min.js"></script>
 <script language="javascript" type="text/javascript" src="/jsp/account/accountpage.js"></script>
 </head>
 <body>
 <form:form method="post"  modelAttribute="account" onsubmit="return checkForm();">
 	<form:hidden path="updateTime"  readonly="true" />
  <center>
-	<c:if test="${not empty id}">修改<c:if test="${account.type==0}">出库单</c:if><c:if test="${account.type==1}">入库单</c:if></c:if><c:if test="${empty id }">添加单据</c:if>
-	<c:if test="${not empty id}"><form:label path="id" cssStyle="background-color:#F0F0F0;color:#9933CC;border-style: solid;  border-width: 1px;  border-color: gray;">${id}</form:label></c:if>
+	<c:if test="${not empty account.id}">修改</c:if><c:if test="${empty account.id }">添加</c:if>
+	<c:if test="${account.type==0}">出库单</c:if><c:if test="${account.type==1}">入库单</c:if>
+	
+	<c:if test="${not empty account.id}"><div style="background-color:#F0F0F0;color:#9933CC;border-style: solid;  border-width: 1px;  border-color: gray;">${account.id}</div></c:if>
 	<table  id="inputAccountTable" border="1">
 		<tr>
 			<td>单据类型：</td>
 			<td>
-				<c:if test="${not empty id}"> <%--  id不空则是修改 ，修改单据不允许修改单据类型，用隐藏域保存--%>
+				<c:if test="${not empty account.id}"> <%--  id不空则是修改 ，修改单据不允许修改单据类型，用隐藏域保存--%>
 					<c:if test="${account.type==0}"><form:hidden path="type" />出库单</c:if>
 					<c:if test="${account.type==1}"><form:hidden path="type" />入库单</c:if>
 				</c:if>
-				<c:if test="${empty id}">   <%--   id为空则为是新增 --%>
+				<c:if test="${empty account.id}">   <%--   id为空则为是新增 --%>
 					<form:select path="type" >
 						<form:option value="0" label="出库" />
 						<form:option value="1" label="入库"  /> 
